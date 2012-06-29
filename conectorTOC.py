@@ -114,7 +114,7 @@ class controladorTarjeta(gobject.GObject):
             if conectado:           
                 if not self.pila_sql.empty(): # Si la pila tiene elementos
                     while(not self.pila_sql.empty()):
-                        conector_remoto.ejecutar_comando(self.pila_sql.get())
+                        conector.ejecutar_comando(self.pila_sql.get())
                         if self.DEBUG:
                             print "DEBUG: SQL Ejecutado en servidor remoto"
                         if not conector.ejecutar_comando(self.pila_sql.get()):
