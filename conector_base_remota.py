@@ -22,7 +22,7 @@ class conector_remoto():
         self.host = "toc.servehttp.com"
         self.usuario = "toc"
         self.password = "CIETOC06"
-        self.bd = "toc_datos"
+        self.bd = "toc_bd"
         
     def conectar(self):
         '''
