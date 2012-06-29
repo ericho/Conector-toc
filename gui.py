@@ -131,7 +131,7 @@ class gui(object):
         
         self.modulo_4 = self.treestore.append(None, ['Calentador solar', '--'])
         self.mod4_temp_agua_fria = self.treestore.append(self.modulo_4, ['Temperatura tuberia 1', '--'])
-        self.mod4_temp_agua_caliente = self.treestore.append(self.modulo_4, ['Temperatura tuberia 2', '--'])
+        self.mod4_temp_agua_tuberia = self.treestore.append(self.modulo_4, ['Temperatura tuberia 2', '--'])
         self.mod4_temp_salida_agua_fria = self.treestore.append(self.modulo_4, ['Temperatura agua fria', '--'])
         self.mod4_temp_agua_caliente = self.treestore.append(self.modulo_4, ['Temperatura agua caliente', '--'])
         #self.mod4_ldr1 = self.treestore.append(self.modulo_4, ['Sensor LDR1', '--'])
@@ -295,7 +295,7 @@ class gui(object):
         elif trama[1] == "04":
             self.treestore.set(self.modulo_4, 1, "Activo")
             self.treestore.set(self.mod4_temp_agua_fria, 1, trama[2])
-            self.treestore.set(self.mod4_temp_agua_caliente, 1, trama[3])
+            self.treestore.set(self.mod4_temp_agua_tuberia, 1, trama[3])
             self.treestore.set(self.mod4_temp_salida_agua_fria, 1, trama[4])
             self.treestore.set(self.mod4_temp_agua_caliente, 1, trama[5])
 #            self.treestore.set(self.mod4_ldr1, 1, trama[6])

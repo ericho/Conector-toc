@@ -110,15 +110,16 @@ class controladorTarjeta(gobject.GObject):
             if not conectado:
                 conectado = conector.conectar()
                 self.ventana.cambiar_estado_base_remota("Falló")
-                self.pila_sql.put(self.guardar_evento("Fallo conexion con base de datos remota", "0"))
+#                self.pila_sql.put(self.guardar_evento("Fallo conexion con base de datos remota", "0"))
             if conectado:           
                 if not self.pila_sql.empty(): # Si la pila tiene elementos
                     while(not self.pila_sql.empty()):
-                    #conector_remoto.ejecutar_comando(self.pila_sql.get())
-                        #if not conector.ejecutar_comando(self.pila_sql.get()):
-                        #    conectado = False
-                        #    break
-                        print self.pila_sql.get()
+                        conector_remoto.ejecutar_comando(self.pila_sql.get())
+                        if not conector.ejecutar_comando(self.pila_sql.get()):
+                            conectado = False
+                            break
+                        if self.DEBUG:
+                            print "DEBUG: %s"  % (self.pila_sql.get())
             self.ventana.cambiar_estado_base_remota("Detectada")
             time.sleep(15)
         if conectado:
