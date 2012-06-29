@@ -369,7 +369,7 @@ class conectorBD():
         comando += humedad_1 + ","
         comando += ldr_estado + ","
         comando += motor_estado + ","
-        comando += flujo_agua + ")"
+        comando += nivel_agua + ")"
         if self.conexion_activa:
             self.ejecutar_comando(comando)
         return comando
