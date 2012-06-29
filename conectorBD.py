@@ -21,11 +21,12 @@ class conectorBD():
         '''
         self.controlador = controlador
         self.id_localizacion = self.controlador.id_localizacion
+        self.conexion_activa = False
         # Datos de conexion, debera cambiarse de acuerdo a las necesidades. 
         self.host = "localhost"
-        self.usuario = "erich"
-        self.password = "12345"
-        self.bd = "toc_test"
+        self.usuario = "toc"
+        self.password = "CIETOC06"
+        self.bd = "toc_bd"
 
     def conectar(self):
         '''
@@ -38,15 +39,18 @@ class conectorBD():
                                         user=self.usuario,
                                         passwd=self.password,
                                         db=self.bd)
+            self.conexion_activa = True
         except MySQLdb.Error, e:
             print 'No se pudo acceder'
             print 'Error %d: %s' % (e.args[0], e.args[1])
+            self.conexion_activa = False
             return False
         self.cursor = self.base.cursor()
         return True
     
     def desconectar(self):
         ''' Se desconecta de la base de datos '''
+        self.conexion_activa = False
         self.cursor.close()
         
     def ejecutar_comando(self, comando):
@@ -56,10 +60,12 @@ class conectorBD():
         try:
             self.cursor.execute(comando)
             self.base.commit()
+            self.conexion_activa = True
         except MySQLdb.Error, e:
             print 'No se pudo acceder'
             print "El comando %s" % (comando)
             print 'Error %d: %s' % (e.args[0], e.args[1])
+            self.conexion_activa = False
 
     def insertar_evento(self, fecha, modulo, evento):
         comando = "INSERT INTO bitacora VALUES(NULL,"
@@ -67,7 +73,8 @@ class conectorBD():
         comando += self.id_localizacion + ","
         comando += "'" + evento + "',"
         comando += "'" + fecha.strftime('%Y-%m-%d %H:%M:%S') + "')"
-        self.ejecutar_comando(comando)
+        if self.conexion_activa:
+            self.ejecutar_comando(comando)
         return comando
 
     def insertar_biodigestor_metano(self, 
@@ -98,20 +105,20 @@ class conectorBD():
         comando += motor_agitador_b_time_on + ","
         comando += motor_agitador_c_frec + ","
         comando += presion_gas + ")"
-
-        self.ejecutar_comando(comando)
+        if self.conexion_activa:
+            self.ejecutar_comando(comando)
         return comando
 
     def insertar_torre_bioetanol(self,
                                        fecha,
-                                       pres_reactor,
-                                       pres_contenedor,
-                                       presion_3,
-                                       temp_contenedor,
-                                       temp_reactor,
-                                       temp_almacenaje,
-                                       nivel_mezcla,
-                                       nivel_condensador):
+                                       presion_calderin,
+                                       presion_domo,
+                                       presion_enchaquetado,
+                                       temp_domo,
+                                       temp_calderin,
+                                       temp_enchaquetado,
+                                       nivel_calderin,
+                                       nivel_almacenamiento):
         ''' Obtiene los valores de la trama torre bioetanol y los almacena en la base de datos
         '''
         
@@ -120,16 +127,16 @@ class conectorBD():
         comando += MODULO + ","
         comando += self.id_localizacion + ","
         comando += "'" + fecha.strftime('%Y-%m-%d %H:%M:%S') + "',"
-        comando += pres_reactor + ","
-        comando += pres_contenedor + ","
-        comando += temp_contenedor + ","
-        comando += temp_reactor + ","
-        comando += temp_almacenaje + ","
-        comando += nivel_mezcla + ","
-        comando += nivel_condensador + ","
-        comando += presion_3 + ")"
-
-        self.ejecutar_comando(comando)
+        comando += presion_calderin + ","
+        comando += presion_domo + ","
+        comando += presion_enchaquetado + ","
+        comando += temp_domo + ","
+        comando += temp_calderin + ","
+        comando += temp_enchaquetado + ","
+        comando += nivel_calderin + ","
+        comando += nivel_almacenamiento + ")"
+        if self.conexion_activa:
+            self.ejecutar_comando(comando)
         return comando
 
     def insertar_reactor_biodiesel(self, 
@@ -157,48 +164,39 @@ class conectorBD():
         comando += agitador_1b_tiempo + ","
         comando += agitador_2a_estado + ","
         comando += agitador_2b_tiempo + ","
+        comando += agitador_2c_tiempo + ","
         comando += calentador_estado + ","
-        comando += calentador_tiempo + ","
-        comando += agitador_2c_tiempo + ")"
-        
-        self.ejecutar_comando(comando)
+        comando += calentador_tiempo + ")"
+
+        if self.conexion_activa:
+            self.ejecutar_comando(comando)
         return comando
         
     def insertar_calentador_solar(self, 
                                   fecha, 
-                                  temp_agua_fria, 
+                                  temp_tuberia_1, 
+                                  temp_tuberia_2, 
                                   temp_agua_caliente, 
-                                  temp_salida_agua, 
-                                  temp_tuberia,
-                                  sensor_ldr1,
-                                  sensor_ldr2,
-                                  sensor_ldr3,
-                                  posicion_calentador,
-                                  motor_seguidor):
+                                  temp_agua_fria):
         
         MODULO = "4"
         comando = "INSERT INTO calentador_solar VALUES(NULL,"
         comando += MODULO + ","
         comando += self.id_localizacion + ","
         comando += "'" + fecha.strftime('%Y-%m-%d %H:%M:%S') + "',"
-        comando += temp_agua_fria + ","
+        comando += temp_tuberia_1 + ","
+        comando += temp_tuberia_2 + ","
         comando += temp_agua_caliente + ","
-        comando += temp_salida_agua + ","
-        comando += temp_tuberia + ","
-        comando += sensor_ldr1 + ","
-        comando += sensor_ldr2 + ","
-        comando += sensor_ldr3 + ","
-        comando += posicion_calentador + ","
-        comando += motor_seguidor + ")"
-        
-        self.ejecutar_comando(comando)
+        comando += temp_agua_fria + ")"
+        if self.conexion_activa:
+            self.ejecutar_comando(comando)
         return comando
         
 
     def insertar_generador_eolico(self, 
                                   fecha, 
-                                  voltaje, 
                                   velocidad_viento, 
+                                  voltaje, 
                                   potencia,
                                   rpm):
         MODULO = "5"
@@ -206,12 +204,12 @@ class conectorBD():
         comando += MODULO + ","
         comando += self.id_localizacion + ","
         comando += "'" + fecha.strftime('%Y-%m-%d %H:%M:%S') + "',"
-        comando += voltaje + ","
         comando += velocidad_viento + ","
+        comando += voltaje + ","
         comando += potencia + ","
         comando += rpm + ")"
-        
-        self.ejecutar_comando(comando)
+        if self.conexion_activa:
+            self.ejecutar_comando(comando)
         return comando
         
     def insertar_generador_magnetico(self,
@@ -228,8 +226,8 @@ class conectorBD():
         comando += corriente + ","
         comando += voltaje + ","
         comando += rpm + ")"
-         
-        self.ejecutar_comando(comando)
+        if self.conexion_activa:
+            self.ejecutar_comando(comando)
         return comando
         
     def insertar_generador_calentador_stirling(self, 
@@ -247,12 +245,28 @@ class conectorBD():
         comando += temp_entrada_fria + ","
         comando += rpm + ","
         comando += presion + ")"
-        
-        self.ejecutar_comando(comando)
+        if self.conexion_activa:
+            self.ejecutar_comando(comando)
         return comando
         
-    def insertar_bomba_de_agua(self):
-        pass
+    def insertar_bomba_de_agua(self, 
+                               fecha, 
+                               nivel, 
+                               rpm, 
+                               servo_motor):
+        MODULO = "8"
+        comando = "INSERT INTO bomba_agua_stirling VALUES(NULL,"
+        comando += MODULO + ","
+        comando += self.id_localizacion + ","
+        comando += "'" + fecha.strftime('%Y-%m-%d %H:%M:%S') + "',"
+        comando += nivel + ","
+        comando += rpm + ","
+        comando += servo_motor + ")"
+        if self.conexion_activa:
+            self.ejecutar_comando(comando)
+        return comando
+        
+        
     
     def insertar_lombricompostario(self, 
                                    fecha,
@@ -269,8 +283,8 @@ class conectorBD():
         comando += motor_frecuencia + ","
         comando += humedad + ","
         comando += temperatura + ")"
-        
-        self.ejecutar_comando(comando)
+        if self.conexion_activa:
+            self.ejecutar_comando(comando)
         return comando
         
     def insertar_acuaponia(self,
@@ -310,8 +324,8 @@ class conectorBD():
         comando += bomba_2a + ","
         comando += bomba_2b + ","
         comando += bomba_2c + ")"
-        
-        self.ejecutar_comando(comando)
+        if self.conexion_activa:        
+            self.ejecutar_comando(comando)
         return comando
     
     def insertar_destilador_solar(self, 
@@ -329,8 +343,8 @@ class conectorBD():
         comando += temperatura_lente + ","
         comando += temperatura_interna + ","
         comando += nivel_contenedor + ")"
-        
-        self.ejecutar_comando(comando)
+        if self.conexion_activa:
+            self.ejecutar_comando(comando)
         return comando
         
     def insertar_condensador_atmosferico(self,
@@ -338,10 +352,11 @@ class conectorBD():
                                          temp_ambiente,
                                          temp_interior,
                                          temp_agua,
-                                         sensor_humedad,
+                                         humedad_1,
+                                         humedad_2,
                                          ldr_estado,
                                          motor_estado,
-                                         flujo_agua):
+                                         nivel_agua):
         MODULO = "12"
         comando = "INSERT INTO condensador_atmosferico VALUES(NULL,"
         comando += MODULO + ","
@@ -350,12 +365,13 @@ class conectorBD():
         comando += temp_ambiente + ","
         comando += temp_interior + ","
         comando += temp_agua + ","
-        comando += sensor_humedad + ","
+        comando += humedad_2 + ","
+        comando += humedad_1 + ","
         comando += ldr_estado + ","
         comando += motor_estado + ","
         comando += flujo_agua + ")"
-        
-        self.ejecutar_comando(comando)
+        if self.conexion_activa:
+            self.ejecutar_comando(comando)
         return comando
         
     def insertar_agua_de_lluvia(self,
@@ -381,32 +397,29 @@ class conectorBD():
         comando += nivel_6 + ","
         comando += bomba_1 + ","
         comando += bomba_2 + ")"
-#        comando += bomba_3 + ")"
-        
-        self.ejecutar_comando(comando)
+        if self.conexion_activa:
+            self.ejecutar_comando(comando)
         return comando
         
     def insertar_autonomia_transporte(self,
                                       fecha,
-                                      inclinacion,
-                                      rpm,
-                                      alternador):
+                                      contador_alternador):
         MODULO = "14"
         comando = "INSERT INTO autonomia_transporte VALUES(NULL,"
         comando += MODULO + ","
         comando += self.id_localizacion + ","
         comando += "'" + fecha.strftime('%Y-%m-%d %H:%M:%S') + "',"
-        comando += inclinacion + ","
-        comando += rpm + ","
-        comando += alternador + ")"
-        
-        self.ejecutar_comando(comando)
+        comando += contador_alternador + ")"
+
+        if self.conexion_activa:
+            self.ejecutar_comando(comando)
         return comando
         
     def insertar_enfriamiento_adsorcion(self,
                                         fecha,
                                         presion,
                                         presion_domo, 
+                                        presion_tuberia,
                                         temp_fria, 
                                         temp_caliente, 
                                         temp_salida_caliente,
@@ -418,11 +431,12 @@ class conectorBD():
         comando += "'" + fecha.strftime('%Y-%m-%d %H:%M:%S') + "',"
         comando += presion + ","
         comando += presion_domo + ","
+        comando += presion_tuberia + ","
         comando += temp_fria + ","
         comando += temp_caliente + ","
         comando += temp_salida_caliente + ","
         comando += temp_tuberia + ")"
-        
-        self.ejecutar_comando(comando)
+        if self.conexion_activa:
+            self.ejecutar_comando(comando)
         return comando
     

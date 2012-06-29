@@ -18,7 +18,7 @@ class tarjetaTOC():
         '''
         Constructor de la clase
         '''
-        self.puerto = "/dev/ttyUSB0"
+        self.puerto = "/dev/ttyS0"
         self.BAUDS = "9600"
         self.TIMEOUT = 1
         
