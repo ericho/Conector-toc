@@ -41,7 +41,7 @@ class controladorTarjeta(gobject.GObject):
         self.pila_sql = Queue.Queue()
         self.pila_tramas_leidas = Queue.Queue()
         
-        self.logs = logging.getlogger("logtoc")
+        self.logs = logging.getLogger("logtoc")
         self.logs.setLevel(logging.DEBUG)
         self.logs_h = logging.FileHandler("log.toc")
         self.logs_f = logging.Formatter("%(levelname)s %(asctime)s %(funcName) %(lineno)d %(message)s")
