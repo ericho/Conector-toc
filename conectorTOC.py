@@ -44,7 +44,7 @@ class controladorTarjeta(gobject.GObject):
         self.logs = logging.getLogger("logtoc")
         self.logs.setLevel(logging.DEBUG)
         self.logs_h = logging.FileHandler("log.toc")
-        self.logs_f = logging.Formatter("%(levelname)s %(asctime)s %(funcName) %(lineno)d %(message)s")
+        self.logs_f = logging.Formatter("%(levelname)s %(asctime)s %(funcName) %(message)s")
         self.logs_h.setFormatter(self.logs_f)
         self.logs_h.setLevel(logging.DEBUG)
         self.logs.addHandler(self.logs_h)
