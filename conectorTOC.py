@@ -15,6 +15,8 @@ from threading import Event
 from gui import gui
 from datetime import datetime
 from ConfigParser import SafeConfigParser
+import logging
+import logging.handlers
 
 import Queue
 import gobject
@@ -39,6 +41,14 @@ class controladorTarjeta(gobject.GObject):
         self.pila_sql = Queue.Queue()
         self.pila_tramas_leidas = Queue.Queue()
         
+        self.logs = logging.getlogger("logtoc")
+        self.logs.setLevel(logging.DEBUG)
+        self.logs_h = logging.FileHandler("log.toc")
+        self.logs_f = logging.Formatter("%(levelname)s %(asctime)s %(funcName) %(lineno)d %(message)s")
+        self.logs_h-setFormatter(self.logs_f)
+        self.logs_h.setLevel(logging.DEBUG)
+        self.logs.addHandler(self.logs_h)
+        
         # Obtener configuracion del archivo. 
         
         self.configuracion = SafeConfigParser()
@@ -60,8 +70,9 @@ class controladorTarjeta(gobject.GObject):
         # Comentar esta linea cuando ya no sea necesaria la simulacion
         #self.simular()
         self.pila_sql.put(self.guardar_evento("Se inicio la aplicación", "0"))
-        
+        self.logs.debug("Se inicio la aplicacion")
         self.despachador_hilos()
+
         gtk.main()
   
     def cargar_configuracion(self):
@@ -72,6 +83,7 @@ class controladorTarjeta(gobject.GObject):
                 self.modulos_activos.append([opcion, bool(self.configuracion.get("modulos", opcion))])
         except:
             print "No se encuentra el archivo de configuracion"
+            self.logs.exception("No se encontro el archivo de configuracion")
   
     def despachador_hilos(self):
     	
@@ -108,14 +120,21 @@ class controladorTarjeta(gobject.GObject):
         
         while(not evento.is_set()):
             if not conectado:
-                conectado = conector.conectar()
+                try:
+                    conectado = conector.conectar()
+                except:
+                    self.logs.exception("No se conecto al servidor remoto de base de datos")
                 self.ventana.cambiar_estado_base_remota("Falló")
 #                self.pila_sql.put(self.guardar_evento("Fallo conexion con base de datos remota", "0"))
             if conectado:           
                 if not self.pila_sql.empty(): # Si la pila tiene elementos
                     while(not self.pila_sql.empty()):
-                        conector.ejecutar_comando(self.pila_sql.get())
+                        try:
+                            conector.ejecutar_comando(self.pila_sql.get())
+                        except:
+                            self.logs.exception("No fue posible ejecutar sentencia en base de datos.")
                         if self.DEBUG:
+                            self.logs.debug("SQL ejecutado en servidor remoto")
                             print "DEBUG: SQL Ejecutado en servidor remoto"
                         if not conector.ejecutar_comando(self.pila_sql.get()):
                             conectado = False
@@ -127,6 +146,7 @@ class controladorTarjeta(gobject.GObject):
         if conectado:
             conector.desconectar()        
         if self.DEBUG:
+            self.logs.debug("Saliendo del hilo de actualizacion BD")
             print "DEBUG: Saliendo del hilo actualizacion BD"
             
     
@@ -141,6 +161,7 @@ class controladorTarjeta(gobject.GObject):
                 self.ventana.cambiar_estado_tarjeta("Detectada")
                 self.pila_tramas_leidas.put(recv)
                 if self.DEBUG:
+                    self.logs.debug(recv)
                     print "DEBUG: %s" % (recv)
         if self.DEBUG:
             print "DEBUG: Se ha terminado el hilo lectura"
