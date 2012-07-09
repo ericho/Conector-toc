@@ -158,9 +158,9 @@ class gui(object):
         self.mod7_presion = self.treestore.append(self.modulo_7, ['Presion', '--'])
         
         self.modulo_8 = self.treestore.append(None, ['Bomba de agua Stirling', '--'])
-        self.mod8_nivel = self.treestore.append(None, ['Nivel', '--'])
-        self.mod8_rpm = self.treestore.append(None, ['RPM', '--'])	
-        self.mod8_servo_motor = self.treestore.append(None, ['Servo Motor', '--'])
+        self.mod8_nivel = self.treestore.append(self.modulo_8, ['Nivel', '--'])
+        self.mod8_rpm = self.treestore.append(self.modulo_8, ['RPM', '--'])	
+        self.mod8_servo_motor = self.treestore.append(self.modulo_8, ['Servo Motor', '--'])
         
         self.modulo_9 = self.treestore.append(None, ['Lombricomposta', '--'])
         self.mod9_motor_estado = self.treestore.append(self.modulo_9, ['Motor estado', '--'])

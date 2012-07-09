@@ -357,6 +357,8 @@ class conectorBD():
                                          ldr_estado,
                                          motor_estado,
                                          nivel_agua):
+        
+        
         MODULO = "12"
         comando = "INSERT INTO condensador_atmosferico VALUES(NULL,"
         comando += MODULO + ","

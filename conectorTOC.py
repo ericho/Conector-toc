@@ -10,6 +10,7 @@ from tarjetaTOC import tarjetaTOC
 from conectorBD import conectorBD
 from conector_base_remota import conector_remoto
 from simulador_tarjeta import simulador
+from validar import validador
 from threading import Thread
 from threading import Event 
 from gui import gui
@@ -49,6 +50,8 @@ class controladorTarjeta(gobject.GObject):
         self.logs_h.setLevel(logging.DEBUG)
         self.logs.addHandler(self.logs_h)
         
+        
+        self.validar = validador(self)
         # Obtener configuracion del archivo. 
         
         self.configuracion = SafeConfigParser()
@@ -138,7 +141,6 @@ class controladorTarjeta(gobject.GObject):
                             print "DEBUG: SQL Ejecutado en servidor remoto"
                         if not conector.ejecutar_comando(self.pila_sql.get()):
                             conectado = False
-                            break
                         if self.DEBUG:
                             print "DEBUG: %s"  % (self.pila_sql.get())
             self.ventana.cambiar_estado_base_remota("Detectada")
@@ -218,206 +220,297 @@ class controladorTarjeta(gobject.GObject):
         sql = ""
         fecha = datetime.now()
         bloques = trama.split(',')
-        self.ventana.actualizar_modelo(bloques)
+        
         if bloques[1] == "01":
-            sql = self.base.insertar_biodigestor_metano(fecha,
-                                                  bloques[2], 
-                                                  bloques[3],
-                                                  bloques[4],
-                                                  bloques[5],
-                                                  bloques[6],
-                                                  bloques[7],
-                                                  bloques[8],
-                                                  bloques[9],
-                                                  bloques[10])
-            self.ventana.cambiar_barra_estado("Biodigestor metano" + trama)
-            self.ventana.cambiar_estado_actividad(fecha.strftime('%Y-%m-%d %H:%M:%S'))
-            self.pila_sql.put(sql)
+            if self.validar.validar_biodigestor_metano(bloques):
+                sql = self.base.insertar_biodigestor_metano(fecha,
+                                                          bloques[2], 
+                                                          bloques[3],
+                                                          bloques[4],
+                                                          bloques[5],
+                                                          bloques[6],
+                                                          bloques[7],
+                                                          bloques[8],
+                                                          bloques[9],
+                                                          bloques[10])
+                self.ventana.actualizar_modelo(bloques)
+                self.ventana.cambiar_barra_estado("Biodigestor metano : " + trama)
+                self.ventana.cambiar_estado_actividad(fecha.strftime('%Y-%m-%d %H:%M:%S'))
+                self.pila_sql.put(sql)
+            else:
+                cadena_evento = "Trama incorrecta : %s" % (trama)
+                id_mod = str(int(bloques[1]))
+                self.guardar_evento(cadena_evento, id_mod)
             if self.DEBUG:
                 print "DEBUG: %s" % (sql)
             
         elif bloques[1] == "02":
-            sql = self.base.insertar_torre_bioetanol(fecha,
-                                                     bloques[2],
-                                                     bloques[3],
-                                                     bloques[4],
-                                                     bloques[5],
-                                                     bloques[6],
-                                                     bloques[7],
-                                                     bloques[8],
-                                                     bloques[9])
-            self.ventana.cambiar_barra_estado("Torre de bioetanol" + trama)
-            self.ventana.cambiar_estado_actividad(fecha.strftime('%Y-%m-%d %H:%M:%S'))
-            self.pila_sql.put(sql)
+            if self.validar.validar_torre_bioetanol(bloques):
+                sql = self.base.insertar_torre_bioetanol(fecha,
+                	                                       bloques[2],
+                	                                       bloques[3],
+                	                                       bloques[4],
+                	                                       bloques[5],
+                	                                       bloques[6],
+                	                                       bloques[7],
+                	                                       bloques[8],
+                	                                       bloques[9])
+                self.ventana.actualizar_modelo(bloques)
+                self.ventana.cambiar_barra_estado("Torre de bioetanol : " + trama)
+                self.ventana.cambiar_estado_actividad(fecha.strftime('%Y-%m-%d %H:%M:%S'))
+                self.pila_sql.put(sql)
+            else:
+                cadena_evento = "Trama incorrecta : %s" % (trama)
+                id_mod = str(int(bloques[1]))
+                self.guardar_evento(cadena_evento, id_mod)
             if self.DEBUG:
                 print "DEBUG: %s" % (sql)
         elif bloques[1] == "03":
-            sql = self.base.insertar_reactor_biodiesel(fecha,
-                                                bloques[2],
-                                                bloques[3],
-                                                bloques[4],
-                                                bloques[5],
-                                                bloques[6],
-                                                bloques[7],
-                                                bloques[8],
-                                                bloques[9],
-                                                bloques[10],
-                                                bloques[11])
-            self.ventana.cambiar_barra_estado("Reactor biodiesel" + trama)
-            self.ventana.cambiar_estado_actividad(fecha.strftime('%Y-%m-%d %H:%M:%S'))
-            self.pila_sql.put(sql)
+            if self.validar.validar_reactor_biodiesel(bloques):
+                sql = self.base.insertar_reactor_biodiesel(fecha,
+                                                    bloques[2],
+                                                    bloques[3],
+                                                    bloques[4],
+                                                    bloques[5],
+                                                    bloques[6],
+                                                    bloques[7],
+                                                    bloques[8],
+                                                    bloques[9],
+                                                    bloques[10],
+                                                    bloques[11])
+                self.ventana.actualizar_modelo(bloques)
+                self.ventana.cambiar_barra_estado("Reactor biodiesel : " + trama)
+                self.ventana.cambiar_estado_actividad(fecha.strftime('%Y-%m-%d %H:%M:%S'))
+                self.pila_sql.put(sql)
+            else:
+                cadena_evento = "Trama incorrecta : %s" % (trama)
+                id_mod = str(int(bloques[1]))
+                self.guardar_evento(cadena_evento, id_mod)
             if self.DEBUG:
                 print "DEBUG: %s" % (sql)
         elif bloques[1] == "04":
-            sql = self.base.insertar_calentador_solar(fecha, 
-                                                bloques[2], 
-                                                bloques[3], 
-                                                bloques[4], 
-                                                bloques[5])
-            self.ventana.cambiar_barra_estado("Calentador solar" + trama)
-            self.ventana.cambiar_estado_actividad(fecha.strftime('%Y-%m-%d %H:%M:%S'))
-            self.pila_sql.put(sql)
+            if self.validar.validar_calentador_solar(bloques):
+                sql = self.base.insertar_calentador_solar(fecha, 
+                                                    bloques[2], 
+                                                    bloques[3], 
+                                                    bloques[4], 
+                                                    bloques[5])
+                self.ventana.actualizar_modelo(bloques)
+                self.ventana.cambiar_barra_estado("Calentador solar : " + trama)
+                self.ventana.cambiar_estado_actividad(fecha.strftime('%Y-%m-%d %H:%M:%S'))
+                self.pila_sql.put(sql)
+            else:
+                cadena_evento = "Trama incorrecta : %s" % (trama)
+                id_mod = str(int(bloques[1]))
+                self.guardar_evento(cadena_evento, id_mod)
             if self.DEBUG:
                 print "DEBUG: %s" % (sql)
         elif bloques[1] == "05":
-            sql = self.base.insertar_generador_eolico(fecha, 
-                                                bloques[2], 
-                                                bloques[3], 
-                                                bloques[4], 
-                                                bloques[5])
-            self.ventana.cambiar_barra_estado("Generador eolico" + trama)
-            self.ventana.cambiar_estado_actividad(fecha.strftime('%Y-%m-%d %H:%M:%S'))
-            self.pila_sql.put(sql)
+            if self.validar.validar_generador_eolico(bloques):
+                sql = self.base.insertar_generador_eolico(fecha, 
+                                                    bloques[2], 
+                                                    bloques[3], 
+                                                    bloques[4], 
+                                                    bloques[5])
+                self.ventana.actualizar_modelo(bloques)
+                self.ventana.cambiar_barra_estado("Generador eolico : " + trama)
+                self.ventana.cambiar_estado_actividad(fecha.strftime('%Y-%m-%d %H:%M:%S'))
+                self.pila_sql.put(sql)
+            else:
+                cadena_evento = "Trama incorrecta : %s" % (trama)
+                id_mod = str(int(bloques[1]))
+                self.guardar_evento(cadena_evento, id_mod)
             if self.DEBUG:
                 print "DEBUG: %s" % (sql)
         elif bloques[1] == "06":
-            sql = self.base.insertar_generador_magnetico(fecha, 
-                                                   bloques[2], 
-                                                   bloques[3], 
-                                                   bloques[4])
-            self.ventana.cambiar_barra_estado("Generador magnetico" + trama)
-            self.ventana.cambiar_estado_actividad(fecha.strftime('%Y-%m-%d %H:%M:%S'))
-            self.pila_sql.put(sql)
+            if self.validar.validar_generador_magnetico(bloques):
+                sql = self.base.insertar_generador_magnetico(fecha, 
+                                                       bloques[2], 
+                                                       bloques[3], 
+                                                       bloques[4])
+                self.ventana.actualizar_modelo(bloques)
+                self.ventana.cambiar_barra_estado("Generador magnetico : " + trama)
+                self.ventana.cambiar_estado_actividad(fecha.strftime('%Y-%m-%d %H:%M:%S'))
+                self.pila_sql.put(sql)
+            else:
+                cadena_evento = "Trama incorrecta : %s" % (trama)
+                id_mod = str(int(bloques[1]))
+                self.guardar_evento(cadena_evento, id_mod)    
             if self.DEBUG:
                 print "DEBUG: %s" % (sql)
         elif bloques[1] == "07":
-            sql = self.base.insertar_generador_calentador_stirling(fecha, 
-                                                             bloques[2], 
-                                                             bloques[3], 
-                                                             bloques[4], 
-                                                             bloques[5])
-            self.ventana.cambiar_barra_estado("Calentador stirling" + trama)
-            self.ventana.cambiar_estado_actividad(fecha.strftime('%Y-%m-%d %H:%M:%S'))
-            self.pila_sql.put(sql)
+            if self.validar.validar_generador_stirling(bloques):
+                sql = self.base.insertar_generador_calentador_stirling(fecha, 
+                                                                 bloques[2], 
+                                                                 bloques[3], 
+                                                                 bloques[4], 
+                                                                 bloques[5])
+                self.ventana.actualizar_modelo(bloques)
+                self.ventana.cambiar_barra_estado("Calentador stirling : " + trama)
+                self.ventana.cambiar_estado_actividad(fecha.strftime('%Y-%m-%d %H:%M:%S'))
+                self.pila_sql.put(sql)
+            else:
+                cadena_evento = "Trama incorrecta : %s" % (trama)
+                id_mod = str(int(bloques[1]))
+                self.guardar_evento(cadena_evento, id_mod)    
             if self.DEBUG:
                 print "DEBUG: %s" % (sql)
         elif bloques[1] == "08":
-            sql = self.base.insertar_bomba_de_agua(fecha, 
-                                                   bloques[2],
-                                                   bloques[3],
-                                                   bloques[4])
-            self.ventana.cambiar_barra_estado("Bomba de Agua" + trama)
-            self.ventana.cambiar_estado_actividad(fecha.strftime('%Y-%m-%d %H:%M:%S'))
-            self.pila_sql.put(sql)
+            if self.validar.validar_bomba_stirling(bloques):
+                sql = self.base.insertar_bomba_de_agua(fecha, 
+                                                       bloques[2],
+                                                       bloques[3],
+                                                       bloques[4])
+                self.ventana.actualizar_modelo(bloques)
+                self.ventana.cambiar_barra_estado("Bomba de Agua : " + trama)
+                self.ventana.cambiar_estado_actividad(fecha.strftime('%Y-%m-%d %H:%M:%S'))
+                self.pila_sql.put(sql)
+            else:
+                cadena_evento = "Trama incorrecta : %s" % (trama)
+                id_mod = str(int(bloques[1]))
+                self.guardar_evento(cadena_evento, id_mod)        
             if self.DEBUG:
                 print "DEBUG: %s" % (sql)
         
         elif bloques[1] == "09":
-            sql = self.base.insertar_lombricompostario(fecha, 
-                                                 bloques[2], 
-                                                 bloques[3], 
-                                                 bloques[4], 
-                                                 bloques[5])
-            self.ventana.cambiar_barra_estado("Lombricomposta" + trama)
-            self.ventana.cambiar_estado_actividad(fecha.strftime('%Y-%m-%d %H:%M:%S'))
-            self.pila_sql.put(sql)
+            if self.validar.validar_lombricomposta(bloques):
+                sql = self.base.insertar_lombricompostario(fecha, 
+                                                     bloques[2], 
+                                                     bloques[3], 
+                                                     bloques[4], 
+                                                     bloques[5])
+                self.ventana.actualizar_modelo(bloques)
+                self.ventana.cambiar_barra_estado("Lombricomposta : " + trama)
+                self.ventana.cambiar_estado_actividad(fecha.strftime('%Y-%m-%d %H:%M:%S'))
+                self.pila_sql.put(sql)
+            else:
+                cadena_evento = "Trama incorrecta : %s" % (trama)
+                id_mod = str(int(bloques[1]))
+                self.guardar_evento(cadena_evento, id_mod)   
             if self.DEBUG:
                 print "DEBUG: %s" % (sql)
 
-        elif bloques[1] == "10":            
-            sql = self.base.insertar_acuaponia(fecha,
-                                         bloques[2],
-                                         bloques[3],
-                                         bloques[4],
-                                         bloques[5],
-                                         bloques[6],
-                                         bloques[7],
-                                         bloques[8],
-                                         bloques[9],
-                                         bloques[10],
-                                         bloques[11],
-                                         bloques[12],
-                                         bloques[13],
-                                         bloques[14],
-                                         bloques[15],
-                                         bloques[16])
-            self.ventana.cambiar_barra_estado("Acuaponia" + trama)
-            self.ventana.cambiar_estado_actividad(fecha.strftime('%Y-%m-%d %H:%M:%S'))
-            self.pila_sql.put(sql)
+        elif bloques[1] == "10":   
+            if self.validar.validar_acuaponia(bloques):         
+                sql = self.base.insertar_acuaponia(fecha,
+                                             bloques[2],
+                                             bloques[3],
+                                             bloques[4],
+                                             bloques[5],
+                                             bloques[6],
+                                             bloques[7],
+                                             bloques[8],
+                                             bloques[9],
+                                             bloques[10],
+                                             bloques[11],
+                                             bloques[12],
+                                             bloques[13],
+                                             bloques[14],
+                                             bloques[15],
+                                             bloques[16])
+                self.ventana.actualizar_modelo(bloques)   
+                self.ventana.cambiar_barra_estado("Acuaponia : " + trama)
+                self.ventana.cambiar_estado_actividad(fecha.strftime('%Y-%m-%d %H:%M:%S'))
+                self.pila_sql.put(sql)
+            else:
+                cadena_evento = "Trama incorrecta : %s" % (trama)
+                id_mod = str(int(bloques[1]))
+                self.guardar_evento(cadena_evento, id_mod)                   
             if self.DEBUG:
                 print "DEBUG: %s" % (sql)
         elif bloques[1] == "11":
-            sql = self.base.insertar_destilador_solar(fecha, 
-                                                bloques[2],
-                                                bloques[3],
-                                                bloques[4],
-                                                bloques[5])
-            self.ventana.cambiar_barra_estado("Destilador solar" + trama)
-            self.ventana.cambiar_estado_actividad(fecha.strftime('%Y-%m-%d %H:%M:%S'))
-            self.pila_sql.put(sql)
+            if self.validar.validar_destilador_solar(bloques):
+                sql = self.base.insertar_destilador_solar(fecha, 
+                                                    bloques[2],
+                                                    bloques[3],
+                                                    bloques[4],
+                                                    bloques[5])
+                self.ventana.actualizar_modelo(bloques)
+                self.ventana.cambiar_barra_estado("Destilador solar : " + trama)
+                self.ventana.cambiar_estado_actividad(fecha.strftime('%Y-%m-%d %H:%M:%S'))
+                self.pila_sql.put(sql)
+            else:
+                cadena_evento = "Trama incorrecta : %s" % (trama)
+                id_mod = str(int(bloques[1]))
+                self.guardar_evento(cadena_evento, id_mod)         
             if self.DEBUG:
                 print "DEBUG: %s" % (sql)
         elif bloques[1] == "12":
-            sql = self.base.insertar_condensador_atmosferico(fecha, 
-                                                       bloques[2], 
-                                                       bloques[3], 
-                                                       bloques[4], 
-                                                       bloques[5], 
-                                                       bloques[6], 
-                                                       bloques[7], 
-                                                       bloques[8],
-                                                       bloques[9])
-            self.ventana.cambiar_barra_estado("Condensador atmosferico" + trama)
-            self.ventana.cambiar_estado_actividad(fecha.strftime('%Y-%m-%d %H:%M:%S'))
-            self.pila_sql.put(sql)
+            if self.validar.validar_condensador_atmosferico(bloques):
+                sql = self.base.insertar_condensador_atmosferico(fecha, 
+                                                           bloques[2], 
+                                                           bloques[3], 
+                                                           bloques[4], 
+                                                           bloques[5], 
+                                                           bloques[6], 
+                                                           bloques[7], 
+                                                           bloques[8],
+                                                           bloques[9])
+                self.ventana.actualizar_modelo(bloques)    
+                self.ventana.cambiar_barra_estado("Condensador atmosferico : " + trama)
+                self.ventana.cambiar_estado_actividad(fecha.strftime('%Y-%m-%d %H:%M:%S'))
+                self.pila_sql.put(sql)
+            else:	
+                cadena_evento = "Trama incorrecta : %s" % (trama)
+                id_mod = str(int(bloques[1]))
+                self.guardar_evento(cadena_evento, id_mod)               
             if self.DEBUG:
                 print "DEBUG: %s" % (sql)
         elif bloques[1] == "13":
-            sql = self.base.insertar_agua_de_lluvia(fecha, 
-                                              bloques[2], 
-                                              bloques[3], 
-                                              bloques[4], 
-                                              bloques[5], 
-                                              bloques[6],
-                                              bloques[7],
-                                              bloques[8],
-                                              bloques[9]) 
-            self.ventana.cambiar_barra_estado("Agua de lluvia" + trama)
-            self.ventana.cambiar_estado_actividad(fecha.strftime('%Y-%m-%d %H:%M:%S'))
-            self.pila_sql.put(sql)
+            if self.validar.validar_agua_de_lluvia(bloques):
+                sql = self.base.insertar_agua_de_lluvia(fecha, 
+                                                  bloques[2], 
+                                                  bloques[3], 
+                                                  bloques[4], 
+                                                  bloques[5], 
+                                                  bloques[6],
+                                                  bloques[7],
+                                                  bloques[8],
+                                                  bloques[9]) 
+                self.ventana.actualizar_modelo(bloques)
+                self.ventana.cambiar_barra_estado("Agua de lluvia : " + trama)
+                self.ventana.cambiar_estado_actividad(fecha.strftime('%Y-%m-%d %H:%M:%S'))
+                self.pila_sql.put(sql)    
+            else:	
+                cadena_evento = "Trama incorrecta : %s" % (trama)
+                id_mod = str(int(bloques[1]))
+                self.guardar_evento(cadena_evento, id_mod)  
             if self.DEBUG:
                 print "DEBUG: %s" % (sql)
         elif bloques[1] == "14":
-            sql = self.base.insertar_autonomia_transporte(fecha, 
-                                                    bloques[2])
-            self.ventana.cambiar_barra_estado("Autonomia de transporte" + trama)
-            self.ventana.cambiar_estado_actividad(fecha.strftime('%Y-%m-%d %H:%M:%S'))
-            self.pila_sql.put(sql)
+            if self.validar.validar_autonomia_transporte(bloques):
+                sql = self.base.insertar_autonomia_transporte(fecha, 
+                                                        bloques[2])
+    
+                self.ventana.actualizar_modelo(bloques)
+                self.ventana.cambiar_barra_estado("Autonomia de transporte : " + trama)
+                self.ventana.cambiar_estado_actividad(fecha.strftime('%Y-%m-%d %H:%M:%S'))
+                self.pila_sql.put(sql)
+            else:	
+                cadena_evento = "Trama incorrecta : %s" % (trama)
+                id_mod = str(int(bloques[1]))
+                self.guardar_evento(cadena_evento, id_mod)
             if self.DEBUG:
                 print "DEBUG: %s" % (sql)
             
         elif bloques[1] == "15":
-            sql = self.base.insertar_enfriamiento_adsorcion(fecha,
-                                                      bloques[2],
-                                                      bloques[3],
-                                                      bloques[4],
-                                                      bloques[5],
-                                                      bloques[6],
-                                                      bloques[7], 
-                                                      bloques[8])
-            self.ventana.cambiar_barra_estado("Enfriamiento por adsorcion" + trama)
-            self.ventana.cambiar_estado_actividad(fecha.strftime('%Y-%m-%d %H:%M:%S'))
-            self.pila_sql.put(sql)
+            if self.validar.validar_enfriamiento_adsorcion(bloques):
+                sql = self.base.insertar_enfriamiento_adsorcion(fecha,
+                                                          bloques[2],
+                                                          bloques[3],
+                                                          bloques[4],
+                                                          bloques[5],
+                                                          bloques[6],
+                                                          bloques[7], 
+                                                          bloques[8])
+                self.ventana.actualizar_modelo(bloques)
+                self.ventana.cambiar_barra_estado("Enfriamiento por adsorcion : " + trama)
+                self.ventana.cambiar_estado_actividad(fecha.strftime('%Y-%m-%d %H:%M:%S'))
+                self.pila_sql.put(sql)
+            else:	
+                cadena_evento = "Trama incorrecta : %s" % (trama)
+                id_mod = str(int(bloques[1]))
+                self.guardar_evento(cadena_evento, id_mod)
             if self.DEBUG:
                 print "DEBUG: %s" % (sql)
                     
