@@ -12,8 +12,6 @@ class validador():
     ''' Constructor de la clase '''
         self.controlador = controlador
 		
-		
-		
     def validar_biodigestor_metano(self, trama):
         try:
             float(trama[2])
