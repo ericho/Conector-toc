@@ -44,8 +44,8 @@ class controladorTarjeta(gobject.GObject):
         
         self.logs = logging.getLogger("logtoc")
         self.logs.setLevel(logging.DEBUG)
-        self.logs_h = logging.FileHandler("log.toc")
-        self.logs_f = logging.Formatter("%(levelname)s %(asctime)s %(funcName) %(message)s")
+        self.logs_h = logging.FileHandler("toc.log")
+        self.logs_f = logging.Formatter("%(name)s: %(levelname)s %(asctime)s %(module)s:%(funcName) %(lineno)d: %(message)s")
         self.logs_h.setFormatter(self.logs_f)
         self.logs_h.setLevel(logging.DEBUG)
         self.logs.addHandler(self.logs_h)
@@ -164,7 +164,7 @@ class controladorTarjeta(gobject.GObject):
                 self.pila_tramas_leidas.put(recv)
                 if self.DEBUG:
                     #self.logs.debug(recv)
-                    print "DEBUG: %s" % (recv)
+                    print "DEBUG TRAMA RECV: %s" % (recv)
         if self.DEBUG:
             print "DEBUG: Se ha terminado el hilo lectura"
         self.tarjeta.cerrar_puerto()
@@ -241,6 +241,7 @@ class controladorTarjeta(gobject.GObject):
                 cadena_evento = "Trama incorrecta : %s" % (trama)
                 id_mod = str(int(bloques[1]))
                 self.pila_sql.put(self.guardar_evento(cadena_evento, id_mod))
+                print "ERROR TRAMA : %s" % (trama)
             if self.DEBUG:
                 print "DEBUG: %s" % (sql)
             
@@ -263,6 +264,7 @@ class controladorTarjeta(gobject.GObject):
                 cadena_evento = "Trama incorrecta : %s" % (trama)
                 id_mod = str(int(bloques[1]))
                 self.pila_sql.put(self.guardar_evento(cadena_evento, id_mod))
+                print "ERROR TRAMA : %s" % (trama)
             if self.DEBUG:
                 print "DEBUG: %s" % (sql)
         elif bloques[1] == "03":
