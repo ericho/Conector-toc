@@ -137,7 +137,7 @@ class controladorTarjeta(gobject.GObject):
                         except:
                             self.logs.exception("No fue posible ejecutar sentencia en base de datos.")
                         if self.DEBUG:
-                            self.logs.debug("SQL ejecutado en servidor remoto")
+                            #self.logs.debug("SQL ejecutado en servidor remoto")
                             print "DEBUG: SQL Ejecutado en servidor remoto"
                         if not conector.ejecutar_comando(self.pila_sql.get()):
                             conectado = False
@@ -163,7 +163,7 @@ class controladorTarjeta(gobject.GObject):
                 self.ventana.cambiar_estado_tarjeta("Detectada")
                 self.pila_tramas_leidas.put(recv)
                 if self.DEBUG:
-                    self.logs.debug(recv)
+                    #self.logs.debug(recv)
                     print "DEBUG: %s" % (recv)
         if self.DEBUG:
             print "DEBUG: Se ha terminado el hilo lectura"
@@ -240,7 +240,7 @@ class controladorTarjeta(gobject.GObject):
             else:
                 cadena_evento = "Trama incorrecta : %s" % (trama)
                 id_mod = str(int(bloques[1]))
-                self.guardar_evento(cadena_evento, id_mod)
+                self.pila_sql.put(self.guardar_evento(cadena_evento, id_mod))
             if self.DEBUG:
                 print "DEBUG: %s" % (sql)
             
@@ -262,7 +262,7 @@ class controladorTarjeta(gobject.GObject):
             else:
                 cadena_evento = "Trama incorrecta : %s" % (trama)
                 id_mod = str(int(bloques[1]))
-                self.guardar_evento(cadena_evento, id_mod)
+                self.pila_sql.put(self.guardar_evento(cadena_evento, id_mod))
             if self.DEBUG:
                 print "DEBUG: %s" % (sql)
         elif bloques[1] == "03":
@@ -285,7 +285,7 @@ class controladorTarjeta(gobject.GObject):
             else:
                 cadena_evento = "Trama incorrecta : %s" % (trama)
                 id_mod = str(int(bloques[1]))
-                self.guardar_evento(cadena_evento, id_mod)
+                self.pila_sql.put(self.guardar_evento(cadena_evento, id_mod))
             if self.DEBUG:
                 print "DEBUG: %s" % (sql)
         elif bloques[1] == "04":
@@ -302,7 +302,7 @@ class controladorTarjeta(gobject.GObject):
             else:
                 cadena_evento = "Trama incorrecta : %s" % (trama)
                 id_mod = str(int(bloques[1]))
-                self.guardar_evento(cadena_evento, id_mod)
+                self.pila_sql.put(self.guardar_evento(cadena_evento, id_mod))
             if self.DEBUG:
                 print "DEBUG: %s" % (sql)
         elif bloques[1] == "05":
@@ -319,7 +319,7 @@ class controladorTarjeta(gobject.GObject):
             else:
                 cadena_evento = "Trama incorrecta : %s" % (trama)
                 id_mod = str(int(bloques[1]))
-                self.guardar_evento(cadena_evento, id_mod)
+                self.pila_sql.put(self.guardar_evento(cadena_evento, id_mod))
             if self.DEBUG:
                 print "DEBUG: %s" % (sql)
         elif bloques[1] == "06":
@@ -335,7 +335,7 @@ class controladorTarjeta(gobject.GObject):
             else:
                 cadena_evento = "Trama incorrecta : %s" % (trama)
                 id_mod = str(int(bloques[1]))
-                self.guardar_evento(cadena_evento, id_mod)    
+                self.pila_sql.put(self.guardar_evento(cadena_evento, id_mod))    
             if self.DEBUG:
                 print "DEBUG: %s" % (sql)
         elif bloques[1] == "07":
@@ -352,7 +352,7 @@ class controladorTarjeta(gobject.GObject):
             else:
                 cadena_evento = "Trama incorrecta : %s" % (trama)
                 id_mod = str(int(bloques[1]))
-                self.guardar_evento(cadena_evento, id_mod)    
+                self.pila_sql.put(self.guardar_evento(cadena_evento, id_mod))    
             if self.DEBUG:
                 print "DEBUG: %s" % (sql)
         elif bloques[1] == "08":
@@ -368,7 +368,7 @@ class controladorTarjeta(gobject.GObject):
             else:
                 cadena_evento = "Trama incorrecta : %s" % (trama)
                 id_mod = str(int(bloques[1]))
-                self.guardar_evento(cadena_evento, id_mod)        
+                self.pila_sql.put(self.guardar_evento(cadena_evento, id_mod))        
             if self.DEBUG:
                 print "DEBUG: %s" % (sql)
         
@@ -386,7 +386,7 @@ class controladorTarjeta(gobject.GObject):
             else:
                 cadena_evento = "Trama incorrecta : %s" % (trama)
                 id_mod = str(int(bloques[1]))
-                self.guardar_evento(cadena_evento, id_mod)   
+                self.pila_sql.put(self.guardar_evento(cadena_evento, id_mod))   
             if self.DEBUG:
                 print "DEBUG: %s" % (sql)
 
@@ -415,7 +415,7 @@ class controladorTarjeta(gobject.GObject):
             else:
                 cadena_evento = "Trama incorrecta : %s" % (trama)
                 id_mod = str(int(bloques[1]))
-                self.guardar_evento(cadena_evento, id_mod)                   
+                self.pila_sql.put(self.guardar_evento(cadena_evento, id_mod))                   
             if self.DEBUG:
                 print "DEBUG: %s" % (sql)
         elif bloques[1] == "11":
@@ -432,7 +432,7 @@ class controladorTarjeta(gobject.GObject):
             else:
                 cadena_evento = "Trama incorrecta : %s" % (trama)
                 id_mod = str(int(bloques[1]))
-                self.guardar_evento(cadena_evento, id_mod)         
+                self.pila_sql.put(self.guardar_evento(cadena_evento, id_mod))         
             if self.DEBUG:
                 print "DEBUG: %s" % (sql)
         elif bloques[1] == "12":
@@ -453,7 +453,7 @@ class controladorTarjeta(gobject.GObject):
             else:	
                 cadena_evento = "Trama incorrecta : %s" % (trama)
                 id_mod = str(int(bloques[1]))
-                self.guardar_evento(cadena_evento, id_mod)               
+                self.pila_sql.put(self.guardar_evento(cadena_evento, id_mod))
             if self.DEBUG:
                 print "DEBUG: %s" % (sql)
         elif bloques[1] == "13":
@@ -474,7 +474,7 @@ class controladorTarjeta(gobject.GObject):
             else:	
                 cadena_evento = "Trama incorrecta : %s" % (trama)
                 id_mod = str(int(bloques[1]))
-                self.guardar_evento(cadena_evento, id_mod)  
+                self.pila_sql.put(self.guardar_evento(cadena_evento, id_mod))  
             if self.DEBUG:
                 print "DEBUG: %s" % (sql)
         elif bloques[1] == "14":
@@ -489,7 +489,7 @@ class controladorTarjeta(gobject.GObject):
             else:	
                 cadena_evento = "Trama incorrecta : %s" % (trama)
                 id_mod = str(int(bloques[1]))
-                self.guardar_evento(cadena_evento, id_mod)
+                self.pila_sql.put(self.guardar_evento(cadena_evento, id_mod))
             if self.DEBUG:
                 print "DEBUG: %s" % (sql)
             
@@ -510,7 +510,7 @@ class controladorTarjeta(gobject.GObject):
             else:	
                 cadena_evento = "Trama incorrecta : %s" % (trama)
                 id_mod = str(int(bloques[1]))
-                self.guardar_evento(cadena_evento, id_mod)
+                self.pila_sql.put(self.guardar_evento(cadena_evento, id_mod))
             if self.DEBUG:
                 print "DEBUG: %s" % (sql)
                     
