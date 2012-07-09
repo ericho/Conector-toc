@@ -7,9 +7,9 @@ Created on 12/12/2011
 '''
 
 class validador():
-''' Clase para validar los errores en las tramas recibidas por la tarjeta '''
+    ''' Clase para validar los errores en las tramas recibidas por la tarjeta '''
     def __init__(self, controlador):
-    ''' Constructor de la clase '''
+        ''' Constructor de la clase '''
         self.controlador = controlador
 		
     def validar_biodigestor_metano(self, trama):
