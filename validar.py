@@ -16,7 +16,7 @@ class validador():
         try:
             float(trama[2])
             float(trama[3])
-            int(trama[4])
+            float(trama[4])
             int(trama[5])
             bool(trama[6])
             bool(trama[7])
