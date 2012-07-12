@@ -39,7 +39,7 @@ class controladorTarjeta(gobject.GObject):
         self.ALARMA = False
         self.DEBUG  = True
         self.modulos_activos = []
-        self.pila_sql = Queue.Queue()
+        self.pila_sql = Queue.Queue(maxsize=100)
         self.pila_tramas_leidas = Queue.Queue()
         
         self.logs = logging.getLogger("logtoc")
