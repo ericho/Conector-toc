@@ -171,9 +171,9 @@ class controladorTarjeta(gobject.GObject):
     def hilo_lectura(self, evento):
         time.sleep(1)
         self.tarjeta.abrir_puerto()
-        
+        gtk.gdk.threads_enter()
         while(not evento.is_set()):
-            gtk.gdk.threads_enter()
+            
             recv = self.tarjeta.leer_datos()
             if (recv):
                 # Actualizar trama en la pila de tramas
@@ -182,30 +182,30 @@ class controladorTarjeta(gobject.GObject):
                 if self.DEBUG:
                     #self.logs.debug(recv)
                     print "DEBUG TRAMA RECV: %s" % (recv)
-            gtk.gdk.threads_leave()
+        gtk.gdk.threads_leave()
         if self.DEBUG:
             print "DEBUG: Se ha terminado el hilo lectura"
         self.tarjeta.cerrar_puerto()
                 
     def hilo_analisis_tramas(self, evento):
         time.sleep(1)
+        gtk.gdk.threads_enter()
         while(not evento.is_set()):
-            gtk.gdk.threads_enter()
             if (not self.pila_tramas_leidas.empty()):
                 trama = self.pila_tramas_leidas.get()
                 self.analizar_trama(trama)
             time.sleep(0.5)
-            gtk.gdk.threads_leave()
+        gtk.gdk.threads_leave()
         if self.DEBUG:
             print "DEBUG: Se ha terminado el hilo tramas"
     
     def hilo_alarmas(self, evento):
-        while(not evento.is_set()):
-            gtk.gdk.threads_enter()    
+        gtk.gdk.threads_enter()
+        while(not evento.is_set()):    
             if self.ALARMA:
                 os.system("beep -f 500 -l 500 -n -f 400 -l 500 -n -f 500 -l 500 -n -f 400 -l 500")
             time.sleep(2)
-            gtk.gdk.threads_leave()
+        gtk.gdk.threads_leave()
         if self.DEBUG:
             print "DEBUG: Se ha terminado el hilo alarmas"
     
