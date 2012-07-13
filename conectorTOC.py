@@ -105,7 +105,7 @@ class controladorTarjeta(gobject.GObject):
         
         self.h_escritura.start()
         self.h_lectura.start()
-        self.h_actualizacion_bd.start()
+#        self.h_actualizacion_bd.start()
         self.h_alarma.start()
         self.h_tramas.start()
         
