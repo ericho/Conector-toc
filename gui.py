@@ -78,7 +78,7 @@ class gui(object):
         
         self.ventana.show()
         
-        self.ventana.maximize()
+        
         
     def on_salir_ventana(self, widget, data=None):
         self.controlador.cerrar_programa()

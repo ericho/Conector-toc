@@ -25,11 +25,11 @@ import gtk
 import time
 import os
 
-class controladorTarjeta(gobject.GObject):
+class controladorTarjeta():
     ''' Clase que funciona como enlace entre la tarjeta de adquisicion de datos TOC 
     y el servidor MySQL. Funciona con una interfaz grafica desarrollada en Glade '''
     def __init__(self):
-        gobject.GObject.__init__(self)
+        #gobject.GObject.__init__(self)
         #gobject.threads_init()
         gtk.gdk.threads_init()
         # Para la simulacion, llamar al procedimiento simular cada segundo.
@@ -124,42 +124,33 @@ class controladorTarjeta(gobject.GObject):
         salir = False
         while(not evento.is_set()):
             if not conectado:
-                #gtk.gdk.threads_enter()
                 try:
                     conectado = conector.conectar()
                     conectado = True
                     salir = False
                 except:
                     self.logs.exception("No se conecto al servidor remoto de base de datos")
-                    self.ventana.cambiar_estado_base_remota("Falló")
+                    gobjecto.idle_add(self.ventana.cambiar_estado_base_remota, "Falló")
                     conectado = False
-                #gtk.gdk.threads_leave()
-#                self.pila_sql.put(self.guardar_evento("Fallo conexion con base de datos remota", "0"))
             if conectado:           
                 if not self.pila_sql.empty(): # Si la pila tiene elementos
-                    #gtk.gdk.threads_enter()
                     while(not self.pila_sql.empty() or salir):
                         try:
                             if conector.ejecutar_comando(self.pila_sql.get()):
                                 conectado = True
-                                self.ventana.cambiar_estado_base_remota("Detectada")
+                                gobject.idle_add(self.ventana.cambiar_estado_base_remota, "Detectada")
                             else:
                                 conectado = False
-                                self.ventana.cambiar_estado_base_remota("Falló")
+                                gobject.idle_add(self.ventana.cambiar_estado_base_remota, "Falló")
                                 salir = True
                         except:
                             self.logs.exception("No fue posible ejecutar sentencia en base de datos.")
                             conectado = False
-                            self.ventana.cambiar_estado_base_remota("Falló")                            
+                            gobject.idle_add(self.ventana.cambiar_estado_base_remota, "Falló")                            
                         if self.DEBUG:
-                            #self.logs.debug("SQL ejecutado en servidor remoto")
                             print "DEBUG: SQL Ejecutado en servidor remoto"
-                        #if not conector.ejecutar_comando(self.pila_sql.get()):
-                        #    conectado = False
                         if self.DEBUG:
                             print "DEBUG: %s"  % (self.pila_sql.get())
-                    #gtk.gdk.threads_leave()
-#            self.ventana.cambiar_estado_base_remota("Detectada")
             time.sleep(15)
         if conectado:
             conector.desconectar()        
@@ -171,13 +162,12 @@ class controladorTarjeta(gobject.GObject):
     def hilo_lectura(self, evento):
         time.sleep(1)
         self.tarjeta.abrir_puerto()
-        #gtk.gdk.threads_enter()
         while(not evento.is_set()):
             
             recv = self.tarjeta.leer_datos()
             if (recv):
                 # Actualizar trama en la pila de tramas
-                self.ventana.cambiar_estado_tarjeta("Detectada")
+                gobject.idle_add(self.ventana.cambiar_estado_tarjeta, "Detectada")
                 self.pila_tramas_leidas.put(recv)
                 if self.DEBUG:
                     #self.logs.debug(recv)
@@ -189,23 +179,19 @@ class controladorTarjeta(gobject.GObject):
                 
     def hilo_analisis_tramas(self, evento):
         time.sleep(1)
-        #gtk.gdk.threads_enter()
         while(not evento.is_set()):
             if (not self.pila_tramas_leidas.empty()):
                 trama = self.pila_tramas_leidas.get()
-                self.analizar_trama(trama)
+                gobject.idle_add(self.analizar_trama, trama)
             time.sleep(0.5)
-        #gtk.gdk.threads_leave()
         if self.DEBUG:
             print "DEBUG: Se ha terminado el hilo tramas"
     
     def hilo_alarmas(self, evento):
-        #gtk.gdk.threads_enter()
         while(not evento.is_set()):    
             if self.ALARMA:
                 os.system("beep -f 500 -l 500 -n -f 400 -l 500 -n -f 500 -l 500 -n -f 400 -l 500")
             time.sleep(2)
-        #gtk.gdk.threads_leave()
         if self.DEBUG:
             print "DEBUG: Se ha terminado el hilo alarmas"
     
