@@ -134,7 +134,7 @@ class controladorTarjeta():
                     conectado = False
             if conectado:           
                 if not self.pila_sql.empty(): # Si la pila tiene elementos
-                    while(not self.pila_sql.empty() or salir):
+                    while(not self.pila_sql.empty() or not salir):
                         try:
                             if conector.ejecutar_comando(self.pila_sql.get()):
                                 conectado = True
