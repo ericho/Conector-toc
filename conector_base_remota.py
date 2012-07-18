@@ -37,7 +37,7 @@ class conector_remoto():
                                         db=self.bd)
         except MySQLdb.Error, e:
             print 'No se pudo acceder a servidor TOC'
-            error 'Error %d: %s' % (e.args[0], e.args[1])
+            error = 'Error %d: %s' % (e.args[0], e.args[1])
             print error
             self.controlador.logs.exception(error)
             return False
@@ -58,8 +58,8 @@ class conector_remoto():
             return True
         except MySQLdb.Error, e:
             error_msg =  'No se pudo ejecutar el comando en servidor TOC'
-            error_cmd "El comando %s" % (comando)
-            error_det 'Error %d: %s' % (e.args[0], e.args[1])
+            error_cmd = "El comando %s" % (comando)
+            error_det = 'Error %d: %s' % (e.args[0], e.args[1])
             print error_msg + error_cmd + error_det
             self.controlador.logs.exception(error_msg + error_cmd + error_det)
             return False
