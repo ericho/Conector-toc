@@ -113,10 +113,19 @@ function descargar_calentador_solar($fecha)
     
     //$fila = mysql_fetch_array($res);
     
+    $cabecera = array();
+    array_push($cabecera, 'Fecha');
+    array_push($cabecera, 'Tuberia 1');
+    array_push($cabecera, 'Tuberia 2');
+    array_push($cabecera, 'Agua fria');
+    array_push($cabecera, 'Agua caliente');
+    
+    
     $archivo_csv = @fopen('php://output', 'w');
-    while ($fila = mysql_fetch_array($res))
+    fputcsv($archivo_csv, $cabecera);
+    while ($fila = mysql_fetch_row($res))
     {
-        fputcsv($archivo_csv, array_values($fila));
+        fputcsv($archivo_csv, $fila);
     }
     
     fclose($archivo_csv);
