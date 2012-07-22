@@ -92,15 +92,14 @@ $consulta = "SELECT idcalentador_solar,
 // Genera una consulta y descarga al informacion en formato CSV. 
 function descargar_calentador_solar($fecha)
 {
-    $archivo = "calentador_solar_" + $fecha + ".csv";
+    $archivo = "calentador_solar_$fecha.csv";
     $consulta = "SELECT fecha_hora,      
                             temp_tuberia_1,
                             temp_tuberia_2,
                             temp_agua_caliente,
                             temp_agua_fria
                             FROM calentador_solar
-                            WHERE fecha_hora > '$fecha' AND fecha_hora < DATE_ADD('$fecha', INTERVAL 1 DAY)
-                            GROUP BY HOUR(fecha_hora)";
+                            WHERE fecha_hora > '$fecha' AND fecha_hora < DATE_ADD('$fecha', INTERVAL 1 DAY)";
     $res = mysql_query($consulta);
     
     header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
