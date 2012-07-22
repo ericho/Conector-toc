@@ -103,6 +103,12 @@ function descargar_calentador_solar($fecha)
                             GROUP BY HOUR(fecha_hora)";
     $res = mysql_query($consulta);
     
+    header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+    header('Content-Description: File Transfer');
+    header("Content-type: text/csv");
+    header("Content-Disposition: attachment; filename={$archivo}");
+    header("Expires: 0");
+    header("Pragma: public");
     
     $fila = mysql_fetch_array($res);
     
