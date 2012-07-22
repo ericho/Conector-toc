@@ -85,6 +85,11 @@ if ($id == 0){
        {
 	 eventos($id, $fecha);
        }
+       
+       else if ($act == 5)
+       {
+           descargar_biodigestor_metano($fecha);
+       }
    }
    else if($id == 2){
      // Torre de Bioetanol
@@ -116,7 +121,10 @@ if ($id == 0){
        {
 	 eventos($id, $fecha);
        }
-   
+    else if ($act == 5)
+       {
+           descargar_torre_bioetanol($fecha);
+       }
 
    }
    else if($id == 3){
@@ -149,7 +157,10 @@ if ($id == 0){
        {
 	 eventos($id, $fecha);
        }
-   
+       else if ($act == 5)
+       {
+           descargar_reactor_biodiesel($fecha);
+       }
 
    }
    else if($id == 4){
@@ -219,7 +230,10 @@ if ($id == 0){
        {
 	 eventos($id, $fecha);
        }
-   
+       else if ($act == 5)
+       {
+           descargar_generador_eolico($fecha);
+       }
 
    }
    else if($id == 6){
@@ -252,7 +266,10 @@ if ($id == 0){
        {
 	 eventos($id, $fecha);
        }
-   
+   else if ($act == 5)
+       {
+           descargar_generador_magnetico($fecha)
+       }
 
    }
    else if($id == 7){
@@ -285,7 +302,10 @@ if ($id == 0){
        {
 	 eventos($id, $fecha);
        }
-   
+       else if ($act == 5)
+       {
+           descargar_calentador_stirling($fecha);
+       }
 
    }
    else if($id==8){
@@ -318,7 +338,10 @@ if ($id == 0){
        {
 	 eventos($id, $fecha);
        }
-   
+   else if ($act == 5)
+       {
+           descargar_bomba_stirling($fecha);
+       }
 
    }
    else if($id == 9){
@@ -351,7 +374,10 @@ if ($id == 0){
        {
 	 eventos($id, $fecha);
        }
-   
+   else if ($act == 5)
+       {
+           descargar_lombricomposta($fecha);
+       }
 
    }
    else if($id == 10){
@@ -384,6 +410,11 @@ if ($id == 0){
        {
 	 eventos($id, $fecha);
        }
+    else if ($act == 5)
+       {
+           descargar_acuaponia($fecha);
+       }   
+    
    }
    else if($id == 11){
      // Destilador solar 
@@ -415,7 +446,10 @@ if ($id == 0){
        {
 	 eventos($id, $fecha);
        }
-   
+   else if ($act == 5)
+       {
+           descargar_destilador_solar($fecha);
+       }
 
    }
    else if($id == 12){
@@ -448,7 +482,10 @@ if ($id == 0){
        {
 	 eventos($id, $fecha);
        }
-   
+    else if ($act == 5)
+       {
+           descargar_condensador_atmosferico($fecha);
+       }
 
    }
    else if($id == 13){
@@ -481,7 +518,10 @@ if ($id == 0){
        {
 	 eventos($id, $fecha);
        }
-   
+   else if ($act == 5)
+       {
+           descargar_agua_de_lluvia($fecha);
+       }
     
    }
    else if($id == 14){
@@ -514,7 +554,10 @@ if ($id == 0){
        {
 	 eventos($id, $fecha);
        }
-   
+   else if ($act == 5)
+       {
+           descargar_autonomia_transporte($fecha);
+       }
 
    }
    else if($id == 15){
@@ -546,7 +589,10 @@ if ($id == 0){
        {
 	 eventos($id, $fecha);
        }
-   
+else if ($act == 5)
+       {
+           descargar_enfriamiento_adsorcion($fecha);
+       }   
 
    }
    else{

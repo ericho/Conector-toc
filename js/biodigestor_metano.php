@@ -193,4 +193,58 @@ function biodigestor_metano_intervalos($fecha, $act)
   echo json_encode($arreglo);
 
 }
+
+
+// Genera una consulta y descarga al informacion en formato CSV. 
+function descargar_biodigestor_metano($fecha)
+{
+    $archivo = "biodigestor_metano_$fecha.csv";
+  $consulta = "SELECT fecha_hora,
+			 	 temp_mezcla,
+				 temp_reactor,
+			 	 nivel_reactor,
+			 	 nivel_deposito_gas,
+			 	 res_calentador_agua,
+			 	 motor_agitador_a,
+			 	 motor_agitador_b_time_on,
+			 	 motor_agitador_c_frec,
+                                 presion_gas
+			 	 FROM biodigestor_metano
+                                 WHERE fecha_hora > '$fecha' AND fecha_hora < DATE_ADD('$fecha', INTERVAL 1 DAY)
+                            GROUP BY ROUND(UNIX_TIMESTAMP(fecha_hora) / 300)";
+
+    $res = mysql_query($consulta);
+    
+    header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+    header('Content-Description: File Transfer');
+    header("Content-type: text/csv");
+    header("Content-Disposition: attachment; filename={$archivo}");
+    header("Expires: 0");
+    header("Pragma: public");
+    
+    //$fila = mysql_fetch_array($res);
+    
+    $cabecera = array();
+    array_push($cabecera, 'Fecha');
+    array_push($cabecera, 'Temperatura Mezcla');
+    array_push($cabecera, 'Temperatura Reactor');
+    array_push($cabecera, 'Nivel Reactor');
+    array_push($cabecera, 'Nivel deposito gas');
+    array_push($cabecera, 'Resistencia calentador agua');
+    array_push($cabecera, 'Motor agitador a');
+    array_push($cabecera, 'Motor agitador b On');
+    array_push($cabecera, 'Motor agitador c frec');    
+    array_push($cabecera, 'Presion gas');
+    
+    $archivo_csv = @fopen('php://output', 'w');
+    fputcsv($archivo_csv, $cabecera);
+    while ($fila = mysql_fetch_row($res))
+    {
+        fputcsv($archivo_csv, $fila);
+    }
+    
+    fclose($archivo_csv);
+    exit;
+    
+
 ?>

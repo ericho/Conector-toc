@@ -111,4 +111,55 @@ function enfriamiento_adsorcion_rangos($fecha, $fecha2, $act)
   echo json_encode($arreglo);
 
 }
+
+function descargar_enfriamiento_adsorcion($fecha)
+{
+    $archivo = "enfriamiento_adsorcion_$fecha.csv";
+     $consulta = "SELECT                                        fecha_hora,
+                                                                presion,
+                                                                presion_domo,
+                                                                presion_tuberia,
+                                                                temp_agua_fria,
+                                                                temp_agua_caliente,
+                                                                temp_salida_caliente,
+                                                                temp_tuberia
+                                                                FROM enfriamiento_adsorcion
+                                         WHERE fecha_hora > '$fecha' AND fecha_hora < DATE_ADD('$fecha', INTERVAL 1 DAY)
+                            GROUP BY ROUND(UNIX_TIMESTAMP(fecha_hora) / 300)";
+
+    $res = mysql_query($consulta);
+    
+    header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+    header('Content-Description: File Transfer');
+    header("Content-type: text/csv");
+    header("Content-Disposition: attachment; filename={$archivo}");
+    header("Expires: 0");
+    header("Pragma: public");
+    
+    //$fila = mysql_fetch_array($res);
+    
+    $cabecera = array();
+    array_push($cabecera, 'Fecha');
+    array_push($cabecera, 'Presion');
+    array_push($cabecera, 'Presion domo');
+    array_push($cabecera, 'Presion tuberia');
+    array_push($cabecera, 'Temperatura agua fria');
+    array_push($cabecera, 'Temperatura agua caliente');
+    array_push($cabecera, 'Temperatura salida caliente');
+    array_push($cabecera, 'Temperatura tuberia');
+    
+    
+    $archivo_csv = @fopen('php://output', 'w');
+    fputcsv($archivo_csv, $cabecera);
+    while ($fila = mysql_fetch_row($res))
+    {
+        fputcsv($archivo_csv, $fila);
+    }
+    
+    fclose($archivo_csv);
+    exit;
+    
+}
+
+
 ?>

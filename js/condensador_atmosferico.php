@@ -118,4 +118,57 @@ function condensador_atmosferico_rangos($fecha, $fecha2, $act)
 
 }
 
+function descargar_condensador_atmosferico($fecha)
+{
+    $archivo = "condensador_atmosferico_$fecha.csv";
+    $consulta = "SELECT                                         fecha_hora,
+                                                                temp_ambiente,
+                                                                temp_interior,
+                                                                temp_agua,
+                                                                humedad_1,
+                                                                humedad_2,
+                                                                ldr_estado,
+                                                                motor_estado,
+                                                                nivel_agua
+                                                FROM condensador_atmosferico
+                                         WHERE fecha_hora > '$fecha' AND fecha_hora < DATE_ADD('$fecha', INTERVAL 1 DAY)
+
+                             GROUP BY ROUND(UNIX_TIMESTAMP(fecha_hora) / 300)";
+
+    $res = mysql_query($consulta);
+    
+    header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+    header('Content-Description: File Transfer');
+    header("Content-type: text/csv");
+    header("Content-Disposition: attachment; filename={$archivo}");
+    header("Expires: 0");
+    header("Pragma: public");
+    
+    //$fila = mysql_fetch_array($res);
+    
+    $cabecera = array();
+    array_push($cabecera, 'Fecha');
+    array_push($cabecera, 'Temperatura ambiente');
+    array_push($cabecera, 'Temperatura interior');
+    array_push($cabecera, 'Temperatura agua');
+    array_push($cabecera, 'Humedad 1');
+    array_push($cabecera, 'Humedad 2');
+    array_push($cabecera, 'Estado LDR');
+    array_push($cabecera, 'Estado motor');
+    array_push($cabecera, 'Nivel Agua');
+    
+    
+    $archivo_csv = @fopen('php://output', 'w');
+    fputcsv($archivo_csv, $cabecera);
+    while ($fila = mysql_fetch_row($res))
+    {
+        fputcsv($archivo_csv, $fila);
+    }
+    
+    fclose($archivo_csv);
+    exit;
+    
+}
+
+
 ?>
