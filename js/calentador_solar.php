@@ -114,9 +114,9 @@ function descargar_calentador_solar($fecha)
     //$fila = mysql_fetch_array($res);
     
     $archivo_csv = @fopen('php://output', 'w');
-    foreach ($res as $fila)
+    while ($fila = mysql_fetch_array($res)
     {
-        fputcsv($archivo_csv, $fila);
+        fputcsv($archivo_csv, array_values($fila));
     }
     
     fclose($archivo_csv);
