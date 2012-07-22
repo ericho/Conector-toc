@@ -99,7 +99,9 @@ function descargar_calentador_solar($fecha)
                             temp_agua_caliente,
                             temp_agua_fria
                             FROM calentador_solar
-                            WHERE fecha_hora > '$fecha' AND fecha_hora < DATE_ADD('$fecha', INTERVAL 1 DAY)";
+                            WHERE fecha_hora > '$fecha' AND fecha_hora < DATE_ADD('$fecha', INTERVAL 1 DAY)
+                            GROUP BY HOUR(fecha_hora)";
+
     $res = mysql_query($consulta);
     
     header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
@@ -109,10 +111,10 @@ function descargar_calentador_solar($fecha)
     header("Expires: 0");
     header("Pragma: public");
     
-    $fila = mysql_fetch_array($res);
+    //$fila = mysql_fetch_array($res);
     
     $archivo_csv = @fopen('php://output', 'w');
-    while ($fila = mysql_fetch_array($res))
+    foreach ($res as $fila)
     {
         fputcsv($archivo_csv, $fila);
     }
