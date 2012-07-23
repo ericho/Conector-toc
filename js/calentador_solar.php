@@ -37,7 +37,7 @@ $consulta = "SELECT idcalentador_solar,
                                                 temp_agua_fria
                         	         	 FROM calentador_solar
                                          WHERE fecha_hora > '$fecha' AND fecha_hora < DATE_ADD('$fecha', INTERVAL 1 DAY)
-                                         GROUP BY ROUND(UNIX_TIMESTAMP(fecha_hora) / 300)";
+                                         GROUP BY HOUR(fecha_hora)";
     }
 
   $res = mysql_query($consulta);
