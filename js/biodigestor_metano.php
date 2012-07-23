@@ -246,5 +246,5 @@ function descargar_biodigestor_metano($fecha)
     fclose($archivo_csv);
     exit;
     
-
+}
 ?>
