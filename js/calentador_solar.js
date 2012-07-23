@@ -10,50 +10,61 @@ $(document).ready(function(){
 	setInterval("iniciar()", 10000);
 	iniciar();
 
-        $(function(){
+    $(function(){
 	    $("#fecha_reporte").datepicker({dateFormat: 'yy-mm-dd'});
 	    $("#fecha2_reporte").datepicker({dateFormat: 'yy-mm-dd'});
 	    $("#fecha_evento").datepicker({dateFormat: 'yy-mm-dd'});
 	});
     
+    $("#boton_descargar").click(function(){
+        if ($("#reporte_diario").is(":checked")){
+            var fecha = $("#fecha_reporte").val();
+            descargarDatosReporte(fecha);   
+        }
+    });
+    
+    $("#boton_reporte").click(function(){
+        if ($("#reporte_diario").is(":checked")){
+            var fecha = $("#fecha_reporte").val();
+            obtenerJSONReporte(fecha);   
+        }
+        else if($("#reporte_rango").is(":checked")){
+		  var fecha1 = $("#fecha_reporte").val();
+		  var fecha2 = $("#fecha2_reporte").val();
+		  obtenerReporteRango(fecha1, fecha2);
+	    }
+    });
 
-        $("#forma_reporte").submit(function(){
-	    if($("#reporte_diario").is(":checked")){
-		var fecha = $("#fecha_reporte").val();
-		obtenerJSONReporte(fecha);
-	    }
-	    else if($("#reporte_rango").is(":checked")){
-		var fecha1 = $("#fecha_reporte").val();
-		var fecha2 = $("#fecha2_reporte").val();
-		obtenerReporteRango(fecha1, fecha2);
-	    }
+    $("#forma_reporte").submit(function(){
 	    return false;
 	});
+	
+	
 
-        $("#forma_eventos").submit(function(){
-            var fecha = $("#fecha_evento").val();
+    $("#forma_eventos").submit(function(){
+        var fecha = $("#fecha_evento").val();
 //            obtenerReporteEventos(fecha);
 
 	    return false;
 	});
 
-        $("#reporte_rango").click(function(){
+    $("#reporte_rango").click(function(){
 	    if($("#reporte_rango").is(":checked")){
-		$("#fecha2_reporte").attr("disabled", false);
-		$("#l_fecha").text("Fecha inicial : ");
+		  $("#fecha2_reporte").attr("disabled", false);
+		  $("#l_fecha").text("Fecha inicial : ");
 	    }
 	    else{
-		$("#fecha2_reporte").attr("disabled", true);
+		  $("#fecha2_reporte").attr("disabled", true);
 	    }
 	});
 
-        $("#reporte_diario").click(function(){
+    $("#reporte_diario").click(function(){
 	    if($("#reporte_diario").is(":checked")){
-		$("#fecha2_reporte").attr("disabled", true);
-		$("#l_fecha").text("Seleccionar fecha : ");
+		  $("#fecha2_reporte").attr("disabled", true);
+		  $("#l_fecha").text("Seleccionar fecha : ");
 	    }
 	    else{
-		$("#fecha2_reporte").attr("disabled", false);
+		  $("#fecha2_reporte").attr("disabled", false);
 	    }
 	});
 
@@ -64,7 +75,7 @@ $(document).ready(function(){
 function llenarPestanasDeck(){
     var html = "<div width='100%' height:'250'><canvas id='termo_tub_fria' width='80px' height='250px' style='float:left'></canvas><canvas id='termo_tub_caliente' width='80' height='250' style='float:left'></canvas><canvas id='termo_sal_caliente' width='80' height='250' style='float:left'></canvas><canvas id='termo_tuberia' width='80' height='250' style='float:left'></canvas></div><div id='tabla_datos_reciente' style='float:left; width:auto; padding-left:10px;'></div>";
 
-    var html_reporte  = '<div id="div_forma_reporte"><form id="forma_reporte"><legend>Tipo de reporte :</legend><input type="radio" name="tipo_reporte" id="reporte_diario" checked="checked"> Diario<input type="radio" name="tipo_reporte" id="reporte_rango"> Rango de fechas<br><label id="l_fecha">Seleccionar fecha : </label><input type="text" name="fecha" id="fecha_reporte"><br/><label>Fecha final : </label><input type="text" name="fecha2" id="fecha2_reporte" disabled="disabled"><br/><button id="boton_reporte">Generar reporte</button></form></div><div id="id_exportar"></div><center><div id="canvas_reporte"><canvas id="grafica_temp_reporte" width="650" height="250" ></canvas><br/><canvas id="grafica_temps_reporte" width="500" height="180"></canvas></div></center>';
+    var html_reporte  = '<div id="div_forma_reporte"><form id="forma_reporte"><legend>Tipo de reporte :</legend><input type="radio" name="tipo_reporte" id="reporte_diario" checked="checked"> Diario<input type="radio" name="tipo_reporte" id="reporte_rango"> Rango de fechas<br><label id="l_fecha">Seleccionar fecha : </label><input type="text" name="fecha" id="fecha_reporte"><br/><label>Fecha final : </label><input type="text" name="fecha2" id="fecha2_reporte" disabled="disabled"><br/><button id="boton_reporte">Generar reporte</button><button id="boton_descargar">Descargar datos</button></form></div><div id="id_exportar"></div><center><div id="canvas_reporte"><canvas id="grafica_temp_reporte" width="650" height="250" ></canvas><br/><canvas id="grafica_temps_reporte" width="500" height="180"></canvas></div></center>';
 
     var html_eventos = '<div id="div_forma_eventos"><form id="forma_eventos"><legend>Seleccionar fecha :<input type="text" name="fecha" id="fecha_evento"> <button id="boton_evento">Cargar eventos</button></form></div><div id="tabla_eventos"></div>';
 
@@ -80,6 +91,7 @@ function iniciar(){
 	    dibujarGraficasRecientes(json);
     });
 }
+
 
 
 function dibujarGraficasRecientes(json){
@@ -178,6 +190,11 @@ function obtenerTablaRecientes(datos){
     html += "<tr><td>Posicion Calentador</td><td>" + datos.posicion_calentador + " °</td></tr>";
     html += "</table>";
     return html;
+}
+
+function descargarDatosReporte(fecha){
+    var url = window.URLaJSON + "?id=4" + String.fromCharCode(38) + "act=5"  + String.fromCharCode(38) + "fecha=" + fecha;
+    window.location.href = url;
 }
 
 function obtenerJSONReporte(fecha){

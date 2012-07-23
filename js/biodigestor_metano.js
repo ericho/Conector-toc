@@ -24,16 +24,26 @@ $(document).ready(function(){
 	});
     
 
-    $("#forma_reporte").submit(function(){
-	    if($("#reporte_diario").is(":checked")){
-		  var fecha = $("#fecha_reporte").val();
-		  obtenerJSONReporte(fecha);
-	    }
-	    else if($("#reporte_rango").is(":checked")){
+   $("#boton_descargar").click(function(){
+        if ($("#reporte_diario").is(":checked")){
+            var fecha = $("#fecha_reporte").val();
+            descargarDatosReporte(fecha);   
+        }
+    });
+    
+    $("#boton_reporte").click(function(){
+        if ($("#reporte_diario").is(":checked")){
+            var fecha = $("#fecha_reporte").val();
+            obtenerJSONReporte(fecha);   
+        }
+        else if($("#reporte_rango").is(":checked")){
 		  var fecha1 = $("#fecha_reporte").val();
 		  var fecha2 = $("#fecha2_reporte").val();
 		  obtenerReporteRango(fecha1, fecha2);
 	    }
+    });
+
+    $("#forma_reporte").submit(function(){
 	    return false;
 	});
 
@@ -84,7 +94,7 @@ $(document).ready(function(){
 function llenarPestanasDeck(){
     var html = "<div width='100%' height:'250'><canvas id='termo_reactor' width='80px' height='250px' style='float:left'></canvas><canvas id='termo_mezcla' width='80' height='250' style='float:left'></canvas><canvas id='grafica_niveles' height='250' style='width:300px;float:left'></canvas></div><br/><div><div><canvas id='presion' width='200' height='200' style='float:left'></canvas></div><div id='tabla_datos_reciente' style='float:left; width:auto; padding-left:10px;'></div></div>";
 
-    var html_reporte  = '<div id="div_forma_reporte" style="float:left"><form id="forma_reporte"><legend>Tipo de reporte :</legend><input type="radio" name="tipo_reporte" id="reporte_diario" checked="checked"> Diario<input type="radio" name="tipo_reporte" id="reporte_rango"> Rango de fechas<br><label id="l_fecha">Seleccionar fecha : </label><input type="text" name="fecha" id="fecha_reporte"><br/><label>Fecha final : </label><input type="text" name="fecha2" id="fecha2_reporte" disabled="disabled"><br/><button id="boton_reporte">Generar reporte</button></form></div><div id="id_exportar"></div><div id="canvas_reporte"><canvas id="grafica_temp_reporte" width="650" height="250" ></canvas><br/><canvas id="grafica_nivel_reporte" width="650" height="250"></canvas><br /><canvas id="grafica_presion_reporte" width="650" height="250"></canvas></div>';
+    var html_reporte  = '<div id="div_forma_reporte" style="float:left"><form id="forma_reporte"><legend>Tipo de reporte :</legend><input type="radio" name="tipo_reporte" id="reporte_diario" checked="checked"> Diario<input type="radio" name="tipo_reporte" id="reporte_rango"> Rango de fechas<br><label id="l_fecha">Seleccionar fecha : </label><input type="text" name="fecha" id="fecha_reporte"><br/><label>Fecha final : </label><input type="text" name="fecha2" id="fecha2_reporte" disabled="disabled"><br/><button id="boton_reporte">Generar reporte</button><button id="boton_descargar">Descargar datos</button></form></div><div id="id_exportar"></div><div id="canvas_reporte"><canvas id="grafica_temp_reporte" width="650" height="250" ></canvas><br/><canvas id="grafica_nivel_reporte" width="650" height="250"></canvas><br /><canvas id="grafica_presion_reporte" width="650" height="250"></canvas></div>';
 
     var html_configuracion = '<form id="forma_configuracion"><label>Motor Agitador 1B : </label><input type="text" name="motor_1b" id="motor1b"><br/><label>Motor Agitador 1C : </label><input type="text" name="motor_1c" id="motor1c"><br/><button id="boton_config">Enviar configuraci&oacute;n</button></form><div id="mensaje_configuracion"></div>';
 
@@ -101,6 +111,11 @@ function iniciar(){
     $.getJSON(url, function(json){
 	    dibujarGraficasRecientes(json);
     });
+}
+
+function descargarDatosReporte(fecha){
+    var url = window.URLaJSON + "?id=1" + String.fromCharCode(38) + "act=5"  + String.fromCharCode(38) + "fecha=" + fecha;
+    window.location.href = url;
 }
 
 function dibujarGraficasRecientes(json){
