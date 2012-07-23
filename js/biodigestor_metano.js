@@ -48,9 +48,9 @@ $(document).ready(function(){
 	});
 
     $("#forma_eventos").submit(function(){
-        var fecha = $("#fecha_evento").val();
-//      obtenerReporteEventos(fecha);
-        return false;
+            var fecha = $("#fecha_evento").val();
+            obtenerReporteEventos(fecha);
+            return false;
 	});
 
     $("#reporte_rango").click(function(){
@@ -98,7 +98,7 @@ function llenarPestanasDeck(){
 
     var html_configuracion = '<form id="forma_configuracion"><label>Motor Agitador 1B : </label><input type="text" name="motor_1b" id="motor1b"><br/><label>Motor Agitador 1C : </label><input type="text" name="motor_1c" id="motor1c"><br/><button id="boton_config">Enviar configuraci&oacute;n</button></form><div id="mensaje_configuracion"></div>';
 
-    var html_eventos = '<div id="div_forma_eventos"><form id="forma_eventos"><legend>Seleccionar fecha :<input type="text" name="fecha" id="fecha_evento"> <button id="boton_evento">Cargar eventos</button></form></div><div id="tabla_eventos"></div>';
+    var html_eventos = '<div id="div_forma_eventos"><form id="forma_eventos"><legend>Seleccionar fecha :<input type="text" name="fecha" id="fecha_evento"> <button id="boton_evento">Mostrar eventos</button></form></div><div id="tabla_eventos"></div>';
 
     $("#condiciones_actuales").html(html);
     $("#reportes").html(html_reporte);
@@ -213,20 +213,19 @@ function obtenerTablaRecientes(datos){
 
 function obtenerReporteEventos(fecha){
    
-   var url = window.URLaJSON + "?id=0" + String.fromCharCode(38) + "act=4" + String.fromCharCode(38) + "fecha=" + fecha;
-   alert(url);
+   var url = window.URLaJSON + "?id=1" + String.fromCharCode(38) + "act=4" + String.fromCharCode(38) + "fecha=" + fecha;
     $.getJSON(url, function(json){
-	//window.reporte_eventos = [];
 	var html = "<table><tr><td>Fecha</td><td>Evento</td></tr>";
-       alert(json);
-//       $.each(json, function(index, ejson){
-//		html += '<tr><td>' + ejson.fecha + '</td><td>' + ejson.evento + '</td></tr>';
-//	});
+       
+	$.each(json, function(index, ejson){
+		html += '<tr><td>' + ejson.fecha + '</td><td>' + ejson.evento + '</td></tr>';
+	});
 	html += "</table>";
         
 	$("#tabla_eventos").html(html);
     });
 }
+
 
 
 function obtenerJSONReporte(fecha){

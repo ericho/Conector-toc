@@ -39,9 +39,10 @@ $(document).ready(function(){
 	    return false;
 	});
 
-        $("#forma_eventos").submit(function(){
+    $("#forma_eventos").submit(function(){
             var fecha = $("#fecha_evento").val();
             obtenerReporteEventos(fecha);
+            return false;
 	});
 
     });
@@ -52,7 +53,7 @@ function llenarPestanasDeck(){
 
     var html_reporte  = '<div id="div_forma_reporte"><form id="forma_reporte"><legend>Tipo de reporte :</legend><input type="radio" name="tipo_reporte" id="reporte_diario" checked="checked"> Diario<input type="radio" name="tipo_reporte" id="reporte_rango"> Rango de fechas<br><label id="l_fecha">Seleccionar fecha : </label><input type="text" name="fecha" id="fecha_reporte"><br/><label>Fecha final : </label><input type="text" name="fecha2" id="fecha2_reporte" disabled="disabled"><br/><button id="boton_reporte">Generar reporte</button><button id="boton_descargar">Descargar datos</button></form></div><div id="id_exportar"></div><div id="canvas_reporte"><canvas id="grafica_temp_reporte" width="500" height="210" ></canvas><br/><canvas id="grafica_nivel_reporte" width="500" height="180"></canvas></div>';
 
-    var html_eventos = '<div id="div_forma_eventos"><form id="forma_eventos"><legend>Seleccionar fecha :<input type="text" name="fecha" id="fecha_evento"> <button id="boton_evento">Cargar eventos</button></form></div><div id="tabla_eventos"></div>';
+    var html_eventos = '<div id="div_forma_eventos"><form id="forma_eventos"><legend>Seleccionar fecha :<input type="text" name="fecha" id="fecha_evento"> <button id="boton_evento">Mostrar eventos</button></form></div><div id="tabla_eventos"></div>';
 
     $("#condiciones_actuales").html(html);
     $("#reportes").html(html_reporte);
@@ -156,4 +157,19 @@ function obtenerTablaRecientes(datos){
     }
     html += "</table>";
     return html;
+}
+
+function obtenerReporteEventos(fecha){
+   
+   var url = window.URLaJSON + "?id=14" + String.fromCharCode(38) + "act=4" + String.fromCharCode(38) + "fecha=" + fecha;
+    $.getJSON(url, function(json){
+	var html = "<table><tr><td>Fecha</td><td>Evento</td></tr>";
+       
+	$.each(json, function(index, ejson){
+		html += '<tr><td>' + ejson.fecha + '</td><td>' + ejson.evento + '</td></tr>';
+	});
+	html += "</table>";
+        
+	$("#tabla_eventos").html(html);
+    });
 }

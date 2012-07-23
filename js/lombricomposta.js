@@ -40,10 +40,9 @@ $(document).ready(function(){
 	});
 
     $("#forma_eventos").submit(function(){
-        var fecha = $("#fecha_evento").val();
-//      obtenerReporteEventos(fecha);
-
-	    return false;
+            var fecha = $("#fecha_evento").val();
+            obtenerReporteEventos(fecha);
+            return false;
 	});
 
     $("#reporte_rango").click(function(){
@@ -138,6 +137,21 @@ function obtenerTablaRecientes(datos){
     html += "<tr><td>Humedad </td><td>" + datos.humedad + " %</td></tr>";
     html += "</table>";
     return html;
+}
+
+function obtenerReporteEventos(fecha){
+   
+   var url = window.URLaJSON + "?id=9" + String.fromCharCode(38) + "act=4" + String.fromCharCode(38) + "fecha=" + fecha;
+    $.getJSON(url, function(json){
+	var html = "<table><tr><td>Fecha</td><td>Evento</td></tr>";
+       
+	$.each(json, function(index, ejson){
+		html += '<tr><td>' + ejson.fecha + '</td><td>' + ejson.evento + '</td></tr>';
+	});
+	html += "</table>";
+        
+	$("#tabla_eventos").html(html);
+    });
 }
 
 

@@ -191,7 +191,6 @@ function obtenerTablaRecientes(datos){
 function obtenerReporteEventos(fecha){
    
    var url = window.URLaJSON + "?id=10" + String.fromCharCode(38) + "act=4" + String.fromCharCode(38) + "fecha=" + fecha;
-   alert(url);
     $.getJSON(url, function(json){
 	var html = "<table><tr><td>Fecha</td><td>Evento</td></tr>";
        
