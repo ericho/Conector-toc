@@ -14,6 +14,7 @@ include 'torre_bioetanol.php';
 include 'reactor_biodiesel.php';
 include 'calentador_solar.php';
 include 'generador_eolico.php';
+include 'generador_magnetico.php';
 include 'stirling.php';
 include 'lombricomposta.php';
 include 'acuaponia.php';
@@ -66,31 +67,30 @@ if ($id == 0){
      }
 
      if ($act == 1)
-       {
-	 biodigestor_metano();
-       }
+     {
+         biodigestor_metano();
+     }
      else if ($act == 2) // Reporte diario, se espera una fecha
-       {
-	 biodigestor_metano_diario($fecha, $act);
-       }
+     {
+	   biodigestor_metano_diario($fecha, $act);
+     }
      else if ($act == 3) // Reporte por rangos, se esperan dos fechas
-       {
-	 if(isset($_GET['fecha2']))
+     {
+	   if(isset($_GET['fecha2']))
 	   {
-	     $fecha2 = $_GET['fecha2'];
+	       $fecha2 = $_GET['fecha2'];
 	   }
-	 biodigestor_metano_rangos($fecha, $fecha2, $act);
-       }
+	   biodigestor_metano_rangos($fecha, $fecha2, $act);
+     }
      else if($act == 4)
-       {
-	 eventos($id, $fecha);
-       }
-       
-       else if ($act == 5)
-       {
-           descargar_biodigestor_metano($fecha);
-       }
-   }
+     {
+	   eventos($id, $fecha);
+     }
+     else if ($act == 5)
+     {
+        descargar_biodigestor_metano($fecha);
+     }
+    }
    else if($id == 2){
      // Torre de Bioetanol
     $act = 1;
@@ -268,7 +268,7 @@ if ($id == 0){
        }
    else if ($act == 5)
        {
-           descargar_generador_magnetico($fecha)
+           descargar_generador_magnetico($fecha);
        }
 
    }
