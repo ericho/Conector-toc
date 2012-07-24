@@ -152,7 +152,7 @@ function obtenerGraficaNivelActual(id, json){
     grafica_niveles.Set('chart.background.barcolor2', 'white');
     grafica_niveles.Set('chart.background.grid', true);
     grafica_niveles.Set('chart.ymax', 100);
-    grafica.Set('chart.outofbounds', true);
+    grafica_niveles.Set('chart.outofbounds', true);
     grafica_niveles.Set('chart.tooltips', [json.nivel_contenedor + ""]);
     grafica_niveles.Set('chart.tooltips.effect', 'contract');
     //grafica_niveles.Set('chart.title', 'Nivel contenedor');
@@ -250,14 +250,14 @@ function crearArregloTooltipsTemp()
 {
     var arreglo = new Array();
     for (var i=0; i<window.reporte_temp_sol.length; i++){
-	   arreglo.push("<b>" + window.reporte_temp_sol[i].toString() + "° C</b><br />" + window.reporte_fechas[i]);
+	   arreglo.push("<b>" + window.reporte_temp_sol[i].toString() + "Â° C</b><br />" + window.reporte_fechas[i]);
     }
     for (var i=0; i<window.reporte_temp_lente.length; i++){
-	   arreglo.push("<b>" + window.reporte_temp_lente[i].toString() + "° C</b><br />" + window.reporte_fechas[i]);
+	   arreglo.push("<b>" + window.reporte_temp_lente[i].toString() + "Â° C</b><br />" + window.reporte_fechas[i]);
 	//arreglo.push(window.reporte_tuberia_2[i].toString());
     }
     for (var i=0; i<window.reporte_temp_interna.length; i++){
-	   arreglo.push("<b>" + window.reporte_temp_interna[i].toString() + "° C</b><br />" + window.reporte_fechas[i]);
+	   arreglo.push("<b>" + window.reporte_temp_interna[i].toString() + "Â° C</b><br />" + window.reporte_fechas[i]);
     }
     return arreglo;
 }

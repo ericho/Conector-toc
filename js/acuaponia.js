@@ -258,10 +258,10 @@ function crearArregloTooltipsTemp()
 {
     var arreglo = new Array();
     for (var i=0; i<window.reporte_temp_ambiente.length; i++){
-	   arreglo.push("<b>" + window.reporte_temp_ambiente[i].toString() + "° C</b><br />" + window.reporte_fechas[i]);
+	   arreglo.push("<b>" + window.reporte_temp_ambiente[i].toString() + "Â° C</b><br />" + window.reporte_fechas[i]);
     }
     for (var i=0; i<window.reporte_temp_agua.length; i++){
-	   arreglo.push("<b>" + window.reporte_temp_agua[i].toString() + "° C</b><br />" + window.reporte_fechas[i]);
+	   arreglo.push("<b>" + window.reporte_temp_agua[i].toString() + "Â° C</b><br />" + window.reporte_fechas[i]);
     }
     return arreglo;
 }
