@@ -129,7 +129,7 @@ function dibujarGraficasRecientes(json){
     var termo_interior = obtenerTermoInterior(id_termo_interior, json.temp_interior);
     var termo_agua = obtenerTermoAgua(id_termo_agua, json.temp_agua);
     var humedad = obtenerGraficaHumedad(id_humedad, json);
-    var nivel = obtenerGraficaNivel(id_nivel, json.flujo_agua);
+    var nivel = obtenerGraficaNivel(id_nivel, json);
     var html = obtenerTablaRecientes(json);
 //    var tabla_reciente = obtenerTablaRecientes(json);
 
