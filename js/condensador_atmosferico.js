@@ -81,7 +81,7 @@ function llenarPestanasDeck(){
 }
 
 function iniciar(){
-    var url = window.URLaJSON + "?id=4";
+    var url = window.URLaJSON + "?id=12";
     $.getJSON(url, function(json){
 	    dibujarGraficasRecientes(json);
     });
