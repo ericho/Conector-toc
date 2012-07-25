@@ -147,7 +147,6 @@ function obtenerTermoInterna(id, temp){
 function obtenerGraficaNivelActual(id, json){
     
     var grafica_niveles = new RGraph.Bar(id, [parseInt(json.nivel_contenedor)]);
-    grafica_niveles.Set('chart.labels', [json.fecha]);
     grafica_niveles.Set('chart.background.barcolor1', 'white');
     grafica_niveles.Set('chart.background.barcolor2', 'white');
     grafica_niveles.Set('chart.background.grid', true);

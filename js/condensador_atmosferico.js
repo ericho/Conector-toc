@@ -177,6 +177,7 @@ function obtenerGraficaHumedad(id, json){
     //grafica_humedad.Set('chart.title.vpos', 0.65);
     //grafica_humedad.Set('chart.title.hpos', 0.1);
     grafica_humedad.Set('chart.colors', ['#3366ff', '#0000cc']);
+    grafica_humedad.Set('chart.fillstyle', ['rgba(33,66,ff,0.3)', 'rgba(0,0,cc,0.3)']);
     grafica_humedad.Set('chart.key', ['Humedad 1', 'Humedad 2']);
     grafica_humedad.Set('chart.key.position', ['gutter']);
     grafica_humedad.Set('chart.key.position.gutter.boxed', false);
@@ -203,6 +204,7 @@ function obtenerGraficaNivel(id, json){
     //grafica_humedad.Set('chart.title.vpos', 0.65);
     //grafica_humedad.Set('chart.title.hpos', 0.1);
     grafica_nivel.Set('chart.colors', ['#3366ff']);
+    grafica_nivel.Set('chart.fillstyle', ['rgba(33,66,ff,0.3)']);
     grafica_nivel.Set('chart.key', ['Nivel agua']);
     grafica_nivel.Set('chart.key.position', ['gutter']);
     grafica_nivel.Set('chart.key.position.gutter.boxed', false);
