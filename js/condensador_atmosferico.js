@@ -177,7 +177,6 @@ function obtenerGraficaHumedad(id, json){
     //grafica_humedad.Set('chart.title.vpos', 0.65);
     //grafica_humedad.Set('chart.title.hpos', 0.1);
     grafica_humedad.Set('chart.colors', ['#3366ff', '#0000cc']);
-    grafica_humedad.Set('chart.fillstyle', ['rgba(33,66,ff,0.3)']);
     grafica_humedad.Set('chart.key', ['Humedad 1', 'Humedad 2']);
     grafica_humedad.Set('chart.key.position', ['gutter']);
     grafica_humedad.Set('chart.key.position.gutter.boxed', false);
@@ -192,29 +191,28 @@ function obtenerGraficaHumedad(id, json){
 
 function obtenerGraficaNivel(id, json){
     
-    var grafica_humedad = new RGraph.Bar(id, [parseInt(json.flujo_agua)]);
-    grafica_humedad.Set('chart.background.barcolor1', 'white');
-    grafica_humedad.Set('chart.background.barcolor2', 'white');
-    grafica_humedad.Set('chart.background.grid', true);
-    grafica_humedad.Set('chart.ymax', 150);
-    grafica_humedad.Set('chart.outofbounds', true);
-    grafica_humedad.Set('chart.tooltips', [json.flujo_agua]);
-    grafica_humedad.Set('chart.tooltips.effect', 'contract');
+    var grafica_nivel = new RGraph.Bar(id, [parseInt(json.flujo_agua)]);
+    grafica_nivel.Set('chart.background.barcolor1', 'white');
+    grafica_nivel.Set('chart.background.barcolor2', 'white');
+    grafica_nivel.Set('chart.background.grid', true);
+    grafica_nivel.Set('chart.ymax', 150);
+    grafica_nivel.Set('chart.outofbounds', true);
+    grafica_nivel.Set('chart.tooltips', [json.flujo_agua]);
+    grafica_nivel.Set('chart.tooltips.effect', 'contract');
     //grafica_humedad.Set('chart.title', 'Nivel contenedor');
     //grafica_humedad.Set('chart.title.vpos', 0.65);
     //grafica_humedad.Set('chart.title.hpos', 0.1);
-    grafica_humedad.Set('chart.colors', ['#3366ff']);
-    grafica_humedad.Set('chart.fillstyle', ['rgba(33,66,ff,0.3)']);
-    grafica_humedad.Set('chart.key', ['Nivel agua']);
-    grafica_humedad.Set('chart.key.position', ['gutter']);
-    grafica_humedad.Set('chart.key.position.gutter.boxed', false);
+    grafica_nivel.Set('chart.colors', ['#3366ff']);
+    grafica_nivel.Set('chart.key', ['Nivel agua']);
+    grafica_nivel.Set('chart.key.position', ['gutter']);
+    grafica_nivel.Set('chart.key.position.gutter.boxed', false);
     if (!RGraph.isIE8()){
-	   grafica_humedad.Set('chart.contextmenu', [['Zoom in', RGraph.Zoom], ['Cancel', function(){}]]);
-	   grafica_humedad.Set('chart.zoom.delay', 10);
-	   grafica_humedad.Set('chart.zoom.frames', 25);
-	   grafica_humedad.Set('chart.zoom.vdir', 'center');
+	   grafica_nivel.Set('chart.contextmenu', [['Zoom in', RGraph.Zoom], ['Cancel', function(){}]]);
+	   grafica_nivel.Set('chart.zoom.delay', 10);
+	   grafica_nivel.Set('chart.zoom.frames', 25);
+	   grafica_nivel.Set('chart.zoom.vdir', 'center');
     }
-    return grafica_humedad;
+    return grafica_nivel;
 }
 
 function obtenerTablaRecientes(datos){
