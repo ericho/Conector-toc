@@ -176,7 +176,7 @@ function obtenerGraficaHumedad(id, json){
     //grafica_humedad.Set('chart.title', 'Nivel contenedor');
     //grafica_humedad.Set('chart.title.vpos', 0.65);
     //grafica_humedad.Set('chart.title.hpos', 0.1);
-    grafica_humedad.Set('chart.colors', ['#3366ff']);
+    grafica_humedad.Set('chart.colors', ['#3366ff', '#0000cc']);
     grafica_humedad.Set('chart.fillstyle', ['rgba(33,66,ff,0.3)']);
     grafica_humedad.Set('chart.key', ['Humedad 1', 'Humedad 2']);
     grafica_humedad.Set('chart.key.position', ['gutter']);
@@ -196,7 +196,7 @@ function obtenerGraficaNivel(id, json){
     grafica_humedad.Set('chart.background.barcolor1', 'white');
     grafica_humedad.Set('chart.background.barcolor2', 'white');
     grafica_humedad.Set('chart.background.grid', true);
-    grafica_humedad.Set('chart.ymax', 100);
+    grafica_humedad.Set('chart.ymax', 150);
     grafica_humedad.Set('chart.outofbounds', true);
     grafica_humedad.Set('chart.tooltips', [json.flujo_agua]);
     grafica_humedad.Set('chart.tooltips.effect', 'contract');
@@ -380,7 +380,7 @@ function obtenerGraficaTempReporte(id){
 
 function obtenerGraficaNivelReporte(id){
     var grafica = new RGraph.Line(id, [window.reporte_nivel_agua]);
-    var arreglo = crearArregloTooltipsTemp();
+    var arreglo = crearArregloTooltipsNivel();
     grafica.Set('chart.background.barcolor1', 'white');
     grafica.Set('chart.background.barcolor2', 'white');
     grafica.Set('chart.title', 'Nivel');
@@ -412,7 +412,7 @@ function obtenerGraficaNivelReporte(id){
 
 function obtenerGraficaHumedadReporte(id){
     var grafica = new RGraph.Line(id, [window.reporte_humedad_1, window.reporte_humedad_2]);
-    var arreglo = crearArregloTooltipsTemp();
+    var arreglo = crearArregloTooltipsHumedad();
     grafica.Set('chart.background.barcolor1', 'white');
     grafica.Set('chart.background.barcolor2', 'white');
     grafica.Set('chart.title', 'Humedad');
