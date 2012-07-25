@@ -166,7 +166,6 @@ function obtenerTermoAgua(id, temp){
 function obtenerGraficaHumedad(id, json){
     
     var grafica_humedad = new RGraph.Bar(id, [json.humedad_1, json.humedad_2]);
-    grafica_humedad.Set('chart.labels', [json.fecha]);
     grafica_humedad.Set('chart.background.barcolor1', 'white');
     grafica_humedad.Set('chart.background.barcolor2', 'white');
     grafica_humedad.Set('chart.background.grid', true);
@@ -194,7 +193,6 @@ function obtenerGraficaHumedad(id, json){
 function obtenerGraficaNivel(id, json){
     
     var grafica_humedad = new RGraph.Bar(id, [json.flujo_agua]);
-    grafica_humedad.Set('chart.labels', [json.fecha]);
     grafica_humedad.Set('chart.background.barcolor1', 'white');
     grafica_humedad.Set('chart.background.barcolor2', 'white');
     grafica_humedad.Set('chart.background.grid', true);
@@ -296,7 +294,7 @@ function dibujarGraficasReporte(){
     
     // Limpiando Canvas 
     RGraph.Clear(document.getElementById(id_grafica_temps));
-    RGraph.Clear(document.getElementById(id_grafica_niveles));
+    RGraph.Clear(document.getElementById(id_grafica_nivel));
     RGraph.Clear(document.getElementById(id_grafica_humedad));
 
     var reporte_temp = obtenerGraficaTempReporte(id_grafica_temps);
