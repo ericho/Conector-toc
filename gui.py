@@ -7,6 +7,7 @@ Created on 02/01/2012
 
 import gtk
 import pygtk
+import os
 
 class gui(object):
     '''
@@ -24,7 +25,7 @@ class gui(object):
         
         try:
             path_ventana = os.path.join(os.path.dirname(__file__), "ventana.glade")
-            self.builder.add_from_file("ventana.glade")
+            self.builder.add_from_file(path_ventana)
         except:
             print "No se pudo cargar el archivo glade"
         self.ventana = self.builder.get_object("ventana_principal")
