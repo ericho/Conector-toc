@@ -25,7 +25,7 @@ import gtk
 import time
 import os
 
-class controladorTarjeta():
+class adquisicion_toc():
     ''' Clase que funciona como enlace entre la tarjeta de adquisicion de datos TOC 
     y el servidor MySQL. Funciona con una interfaz grafica desarrollada en Glade '''
     def __init__(self):
@@ -75,8 +75,9 @@ class controladorTarjeta():
         #self.simular()
         self.pila_sql.put(self.guardar_evento("Se inicio la aplicación", "0"))
         self.logs.debug("Se inicio la aplicacion")
+        
+    def main(self):
         self.despachador_hilos()
-
         gtk.main()
   
     def cargar_configuracion(self):
@@ -100,12 +101,12 @@ class controladorTarjeta():
         self.h_alarma = Thread(target=self.hilo_alarmas, args=(self.evento_alarma,))
         self.h_lectura = Thread(target=self.hilo_lectura, args=(self.evento_leer,))
         self.h_escritura = Thread(target=self.hilo_escritura, args=(self.evento_escritura,))
-        self.h_actualizacion_bd = Thread(target=self.hilo_actualizacion_bd, args=(self.evento_sql,))
+        #self.h_actualizacion_bd = Thread(target=self.hilo_actualizacion_bd, args=(self.evento_sql,))
         self.h_tramas = Thread(target=self.hilo_analisis_tramas, args=(self.evento_tramas,))
         
         self.h_escritura.start()
         self.h_lectura.start()
-        self.h_actualizacion_bd.start()
+        #self.h_actualizacion_bd.start()
         self.h_alarma.start()
         self.h_tramas.start()
         
