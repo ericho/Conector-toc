@@ -129,7 +129,6 @@ class adquisicion_toc():
             if not conectado:
                 try:
                     conectado = conector.conectar()
-                    conectado = True
                     salir = False
                 except:
                     self.logs.exception("No se conecto al servidor remoto de base de datos")

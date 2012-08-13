@@ -35,14 +35,14 @@ class conector_remoto():
                                         user=self.usuario,
                                         passwd=self.password,
                                         db=self.bd)
+            self.cursor = self.base.cursor()
+            return True
         except MySQLdb.Error, e:
             print 'No se pudo acceder a servidor TOC'
             error = 'Error %d: %s' % (e.args[0], e.args[1])
             print error
             self.controlador.logs.exception(error)
             return False
-        self.cursor = self.base.cursor()
-        return True
     
     def desconectar(self):
         ''' Se desconecta de la base de datos '''
