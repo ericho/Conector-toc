@@ -45,7 +45,8 @@ class adquisicion_toc():
         
         self.logs = logging.getLogger("logtoc")
         self.logs.setLevel(logging.DEBUG)
-        self.logs_h = logging.FileHandler("toc.log")
+        path_logs = os.path.join(os.path.dirname(__file__), "toc.log")
+        self.logs_h = logging.FileHandler(path_logs)
         self.logs_f = logging.Formatter("%(name)s: %(levelname)s %(asctime)s %(module)s:%(funcName) %(lineno)d: %(message)s")
         self.logs_h.setFormatter(self.logs_f)
         self.logs_h.setLevel(logging.DEBUG)
@@ -83,7 +84,8 @@ class adquisicion_toc():
     def cargar_configuracion(self):
         ''' Lee la configuración del archivo configuracion.cfg. '''
         try:
-            self.configuracion.read("configuracion.cfg")
+            path_conf = os.path.join(os.path.dirname(__file__), "configuracion.cfg")
+            self.configuracion.read(path_conf)
             for opcion in self.configuracion.options("modulos"):
                 self.modulos_activos.append([opcion, bool(self.configuracion.get("modulos", opcion))])
         except:
@@ -101,12 +103,12 @@ class adquisicion_toc():
         self.h_alarma = Thread(target=self.hilo_alarmas, args=(self.evento_alarma,))
         self.h_lectura = Thread(target=self.hilo_lectura, args=(self.evento_leer,))
         self.h_escritura = Thread(target=self.hilo_escritura, args=(self.evento_escritura,))
-        #self.h_actualizacion_bd = Thread(target=self.hilo_actualizacion_bd, args=(self.evento_sql,))
+        self.h_actualizacion_bd = Thread(target=self.hilo_actualizacion_bd, args=(self.evento_sql,))
         self.h_tramas = Thread(target=self.hilo_analisis_tramas, args=(self.evento_tramas,))
         
         self.h_escritura.start()
         self.h_lectura.start()
-        #self.h_actualizacion_bd.start()
+        self.h_actualizacion_bd.start()
         self.h_alarma.start()
         self.h_tramas.start()
         

@@ -23,7 +23,7 @@ class gui(object):
         self.builder = gtk.Builder()
         
         try:
-        
+            path_ventana = os.path.join(os.path.dirname(__file__), "ventana.glade")
             self.builder.add_from_file("ventana.glade")
         except:
             print "No se pudo cargar el archivo glade"
