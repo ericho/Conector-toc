@@ -74,7 +74,7 @@ class adquisicion_toc():
         
         # Comentar esta linea cuando ya no sea necesaria la simulacion
         #self.simular()
-        self.pila_sql.put(self.guardar_evento("Se inicio la aplicación", "0"))
+        self.guardar_en_pila(self.guardar_evento("Se inicio la aplicación", "0"))
         self.logs.debug("Se inicio la aplicacion")
         
     def main(self):
@@ -220,7 +220,12 @@ class adquisicion_toc():
             self.ventana.cambiar_estado_tarjeta("Falló")
             self.guardar_evento("Falló la deteción de la tarjeta", "0")
         return True
-            
+
+    def guardar_en_pila(self, sql):
+        if not self.pila_sql.full():
+            self.pila_sql.put(sql)
+    
+
     def analizar_trama(self, trama):
         ''' Metodo que recibe una trama y analiza su contenido 
         actualiza la base de datos y el modelo dentro de la interfaz web. 
@@ -246,11 +251,11 @@ class adquisicion_toc():
                 self.ventana.actualizar_modelo(bloques)
                 self.ventana.cambiar_barra_estado("Biodigestor metano : " + trama)
                 self.ventana.cambiar_estado_actividad(fecha.strftime('%Y-%m-%d %H:%M:%S'))
-                self.pila_sql.put(sql)
+                self.guardar_en_pila(sql)
             else:
                 cadena_evento = "Trama incorrecta : %s" % (trama)
                 id_mod = str(int(bloques[1]))
-                self.pila_sql.put(self.guardar_evento(cadena_evento, id_mod))
+                self.guardar_en_pila(self.guardar_evento(cadena_evento, id_mod))
                 print "ERROR TRAMA : %s" % (trama)
             if self.DEBUG:
                 print "DEBUG: %s" % (sql)
@@ -269,11 +274,11 @@ class adquisicion_toc():
                 self.ventana.actualizar_modelo(bloques)
                 self.ventana.cambiar_barra_estado("Torre de bioetanol : " + trama)
                 self.ventana.cambiar_estado_actividad(fecha.strftime('%Y-%m-%d %H:%M:%S'))
-                self.pila_sql.put(sql)
+                self.guardar_en_pila(sql)
             else:
                 cadena_evento = "Trama incorrecta : %s" % (trama)
                 id_mod = str(int(bloques[1]))
-                self.pila_sql.put(self.guardar_evento(cadena_evento, id_mod))
+                self.guardar_en_pila(self.guardar_evento(cadena_evento, id_mod))
                 print "ERROR TRAMA : %s" % (trama)
             if self.DEBUG:
                 print "DEBUG: %s" % (sql)
@@ -293,11 +298,11 @@ class adquisicion_toc():
                 self.ventana.actualizar_modelo(bloques)
                 self.ventana.cambiar_barra_estado("Reactor biodiesel : " + trama)
                 self.ventana.cambiar_estado_actividad(fecha.strftime('%Y-%m-%d %H:%M:%S'))
-                self.pila_sql.put(sql)
+                self.guardar_en_pila(sql)
             else:
                 cadena_evento = "Trama incorrecta : %s" % (trama)
                 id_mod = str(int(bloques[1]))
-                self.pila_sql.put(self.guardar_evento(cadena_evento, id_mod))
+                self.guardar_en_pila(self.guardar_evento(cadena_evento, id_mod))
             if self.DEBUG:
                 print "DEBUG: %s" % (sql)
         elif bloques[1] == "04":
@@ -310,11 +315,11 @@ class adquisicion_toc():
                 self.ventana.actualizar_modelo(bloques)
                 self.ventana.cambiar_barra_estado("Calentador solar : " + trama)
                 self.ventana.cambiar_estado_actividad(fecha.strftime('%Y-%m-%d %H:%M:%S'))
-                self.pila_sql.put(sql)
+                self.guardar_en_pila(sql)
             else:
                 cadena_evento = "Trama incorrecta : %s" % (trama)
                 id_mod = str(int(bloques[1]))
-                self.pila_sql.put(self.guardar_evento(cadena_evento, id_mod))
+                self.guardar_en_pila(self.guardar_evento(cadena_evento, id_mod))
             if self.DEBUG:
                 print "DEBUG: %s" % (sql)
         elif bloques[1] == "05":
@@ -327,11 +332,11 @@ class adquisicion_toc():
                 self.ventana.actualizar_modelo(bloques)
                 self.ventana.cambiar_barra_estado("Generador eolico : " + trama)
                 self.ventana.cambiar_estado_actividad(fecha.strftime('%Y-%m-%d %H:%M:%S'))
-                self.pila_sql.put(sql)
+                self.guardar_en_pila(sql)
             else:
                 cadena_evento = "Trama incorrecta : %s" % (trama)
                 id_mod = str(int(bloques[1]))
-                self.pila_sql.put(self.guardar_evento(cadena_evento, id_mod))
+                self.guardar_en_pila(self.guardar_evento(cadena_evento, id_mod))
             if self.DEBUG:
                 print "DEBUG: %s" % (sql)
         elif bloques[1] == "06":
@@ -343,11 +348,11 @@ class adquisicion_toc():
                 self.ventana.actualizar_modelo(bloques)
                 self.ventana.cambiar_barra_estado("Generador magnetico : " + trama)
                 self.ventana.cambiar_estado_actividad(fecha.strftime('%Y-%m-%d %H:%M:%S'))
-                self.pila_sql.put(sql)
+                self.guardar_en_pila(sql)
             else:
                 cadena_evento = "Trama incorrecta : %s" % (trama)
                 id_mod = str(int(bloques[1]))
-                self.pila_sql.put(self.guardar_evento(cadena_evento, id_mod))    
+                self.guardar_en_pila(self.guardar_evento(cadena_evento, id_mod))    
             if self.DEBUG:
                 print "DEBUG: %s" % (sql)
         elif bloques[1] == "07":
@@ -360,11 +365,11 @@ class adquisicion_toc():
                 self.ventana.actualizar_modelo(bloques)
                 self.ventana.cambiar_barra_estado("Calentador stirling : " + trama)
                 self.ventana.cambiar_estado_actividad(fecha.strftime('%Y-%m-%d %H:%M:%S'))
-                self.pila_sql.put(sql)
+                self.guardar_en_pila(sql)
             else:
                 cadena_evento = "Trama incorrecta : %s" % (trama)
                 id_mod = str(int(bloques[1]))
-                self.pila_sql.put(self.guardar_evento(cadena_evento, id_mod))    
+                self.guardar_en_pila(self.guardar_evento(cadena_evento, id_mod))    
             if self.DEBUG:
                 print "DEBUG: %s" % (sql)
         elif bloques[1] == "08":
@@ -376,11 +381,11 @@ class adquisicion_toc():
                 self.ventana.actualizar_modelo(bloques)
                 self.ventana.cambiar_barra_estado("Bomba de Agua : " + trama)
                 self.ventana.cambiar_estado_actividad(fecha.strftime('%Y-%m-%d %H:%M:%S'))
-                self.pila_sql.put(sql)
+                self.guardar_en_pila(sql)
             else:
                 cadena_evento = "Trama incorrecta : %s" % (trama)
                 id_mod = str(int(bloques[1]))
-                self.pila_sql.put(self.guardar_evento(cadena_evento, id_mod))        
+                self.guardar_en_pila(self.guardar_evento(cadena_evento, id_mod))        
             if self.DEBUG:
                 print "DEBUG: %s" % (sql)
         
@@ -394,11 +399,11 @@ class adquisicion_toc():
                 self.ventana.actualizar_modelo(bloques)
                 self.ventana.cambiar_barra_estado("Lombricomposta : " + trama)
                 self.ventana.cambiar_estado_actividad(fecha.strftime('%Y-%m-%d %H:%M:%S'))
-                self.pila_sql.put(sql)
+                self.guardar_en_pila(sql)
             else:
                 cadena_evento = "Trama incorrecta : %s" % (trama)
                 id_mod = str(int(bloques[1]))
-                self.pila_sql.put(self.guardar_evento(cadena_evento, id_mod))   
+                self.guardar_en_pila(self.guardar_evento(cadena_evento, id_mod))   
             if self.DEBUG:
                 print "DEBUG: %s" % (sql)
 
@@ -423,11 +428,11 @@ class adquisicion_toc():
                 self.ventana.actualizar_modelo(bloques)   
                 self.ventana.cambiar_barra_estado("Acuaponia : " + trama)
                 self.ventana.cambiar_estado_actividad(fecha.strftime('%Y-%m-%d %H:%M:%S'))
-                self.pila_sql.put(sql)
+                self.guardar_en_pila(sql)
             else:
                 cadena_evento = "Trama incorrecta : %s" % (trama)
                 id_mod = str(int(bloques[1]))
-                self.pila_sql.put(self.guardar_evento(cadena_evento, id_mod))                   
+                self.guardar_en_pila(self.guardar_evento(cadena_evento, id_mod))                   
             if self.DEBUG:
                 print "DEBUG: %s" % (sql)
         elif bloques[1] == "11":
@@ -440,11 +445,11 @@ class adquisicion_toc():
                 self.ventana.actualizar_modelo(bloques)
                 self.ventana.cambiar_barra_estado("Destilador solar : " + trama)
                 self.ventana.cambiar_estado_actividad(fecha.strftime('%Y-%m-%d %H:%M:%S'))
-                self.pila_sql.put(sql)
+                self.guardar_en_pila(sql)
             else:
                 cadena_evento = "Trama incorrecta : %s" % (trama)
                 id_mod = str(int(bloques[1]))
-                self.pila_sql.put(self.guardar_evento(cadena_evento, id_mod))         
+                self.guardar_en_pila(self.guardar_evento(cadena_evento, id_mod))         
             if self.DEBUG:
                 print "DEBUG: %s" % (sql)
         elif bloques[1] == "12":
@@ -461,11 +466,11 @@ class adquisicion_toc():
                 self.ventana.actualizar_modelo(bloques)    
                 self.ventana.cambiar_barra_estado("Condensador atmosferico : " + trama)
                 self.ventana.cambiar_estado_actividad(fecha.strftime('%Y-%m-%d %H:%M:%S'))
-                self.pila_sql.put(sql)
+                self.guardar_en_pila(sql)
             else:	
                 cadena_evento = "Trama incorrecta : %s" % (trama)
                 id_mod = str(int(bloques[1]))
-                self.pila_sql.put(self.guardar_evento(cadena_evento, id_mod))
+                self.guardar_en_pila(self.guardar_evento(cadena_evento, id_mod))
             if self.DEBUG:
                 print "DEBUG: %s" % (sql)
         elif bloques[1] == "13":
@@ -482,11 +487,11 @@ class adquisicion_toc():
                 self.ventana.actualizar_modelo(bloques)
                 self.ventana.cambiar_barra_estado("Agua de lluvia : " + trama)
                 self.ventana.cambiar_estado_actividad(fecha.strftime('%Y-%m-%d %H:%M:%S'))
-                self.pila_sql.put(sql)    
+                self.guardar_en_pila(sql)    
             else:	
                 cadena_evento = "Trama incorrecta : %s" % (trama)
                 id_mod = str(int(bloques[1]))
-                self.pila_sql.put(self.guardar_evento(cadena_evento, id_mod))  
+                self.guardar_en_pila(self.guardar_evento(cadena_evento, id_mod))  
             if self.DEBUG:
                 print "DEBUG: %s" % (sql)
         elif bloques[1] == "14":
@@ -497,11 +502,11 @@ class adquisicion_toc():
                 self.ventana.actualizar_modelo(bloques)
                 self.ventana.cambiar_barra_estado("Autonomia de transporte : " + trama)
                 self.ventana.cambiar_estado_actividad(fecha.strftime('%Y-%m-%d %H:%M:%S'))
-                self.pila_sql.put(sql)
+                self.guardar_en_pila(sql)
             else:	
                 cadena_evento = "Trama incorrecta : %s" % (trama)
                 id_mod = str(int(bloques[1]))
-                self.pila_sql.put(self.guardar_evento(cadena_evento, id_mod))
+                self.guardar_en_pila(self.guardar_evento(cadena_evento, id_mod))
             if self.DEBUG:
                 print "DEBUG: %s" % (sql)
             
@@ -518,11 +523,11 @@ class adquisicion_toc():
                 self.ventana.actualizar_modelo(bloques)
                 self.ventana.cambiar_barra_estado("Enfriamiento por adsorcion : " + trama)
                 self.ventana.cambiar_estado_actividad(fecha.strftime('%Y-%m-%d %H:%M:%S'))
-                self.pila_sql.put(sql)
+                self.guardar_en_pila(sql)
             else:	
                 cadena_evento = "Trama incorrecta : %s" % (trama)
                 id_mod = str(int(bloques[1]))
-                self.pila_sql.put(self.guardar_evento(cadena_evento, id_mod))
+                self.guardar_en_pila(self.guardar_evento(cadena_evento, id_mod))
             if self.DEBUG:
                 print "DEBUG: %s" % (sql)
                     
