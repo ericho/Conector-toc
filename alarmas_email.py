@@ -65,7 +65,7 @@ class alarmas_email:
         elif int(trama[4]) > 15 and self.alarmas_agua_de_lluvia['CisternaALL']:
             self.alarmas_agua_de_lluvia['CisternaALL'] = False
         if int(trama[5]) <= 10:
-            if not self.alarmas_agua_de_lluvia['TinacoALL']
+            if not self.alarmas_agua_de_lluvia['TinacoALL']:
                 titulo = "Alarma Agua de Lluvia"
                 mensaje = "Tinaco Agua de Lluvia por debajo del 10%"
                 self.alarmas_agua_de_lluvia['TinacoALL'] = True
