@@ -27,7 +27,7 @@ class alarmas_email:
         self.server.connect('smtp.gmail.com', 587)
         self.server.ehlo()
         self.server.starttls()
-        self.login(self.correo_desde, self.password)
+        self.server.login(self.correo_desde, self.password)
 
     def desconectar_smtp(self):
         self.server.close()
