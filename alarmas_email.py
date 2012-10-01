@@ -64,12 +64,13 @@ class alarmas_email:
             self.enviar_alarma(titulo, mensaje, self.correo_agua_de_lluvia)
         elif int(trama[4]) > 15 and self.alarmas_agua_de_lluvia['CisternaALL']:
             self.alarmas_agua_de_lluvia['CisternaALL'] = False
-        if int(trama[5]) <= 10 and not self.alarmas_agua_de_lluvia['TinacoALL']:
-            titulo = "Alarma Agua de Lluvia"
-            mensaje = "Tinaco Agua de Lluvia por debajo del 10%"
-            self.alarmas_agua_de_lluvia['TinacoALL'] = True
-            self.enviar_alarma(titulo, mensaje, self.correo_agua_de_lluvia)
-        elif int(trama[6]) > 10 and self.alarmas_agua_de_lluvia['TinacoALL']:
+        if int(trama[5]) <= 10:
+            if not self.alarmas_agua_de_lluvia['TinacoALL']
+                titulo = "Alarma Agua de Lluvia"
+                mensaje = "Tinaco Agua de Lluvia por debajo del 10%"
+                self.alarmas_agua_de_lluvia['TinacoALL'] = True
+                self.enviar_alarma(titulo, mensaje, self.correo_agua_de_lluvia)
+        elif int(trama[6]) > 10:
             self.alarmas_agua_de_lluvia['TinacoALL'] = False
         if int(trama[6]) >= 10 and int(trama[6]) <= 40 and not self.alarmas_agua_de_lluvia['TinacoAJ']:
             titulo = "Alarma Agua de Lluvia"
