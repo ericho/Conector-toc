@@ -48,35 +48,35 @@ class alarmas_email:
             mensaje = "Cisterna AP por debajo del 30%\n\n"
             self.alarmas_agua_de_lluvia['CisternaAP'] = True
             self.enviar_alarma(titulo, mensaje, self.correo_agua_de_lluvia)
-        else:
+        elif int(trama[2]) > 30 and self.alarmas_agua_de_lluvia['CisternaAP']:
             self.alarmas_agua_de_lluvia['CisternaAP'] = False
         if int(trama[3]) <= 20 and not self.alarmas_agua_de_lluvia['TinacoAP']:
             titulo = "Alarma Agua de Lluvia"
             mensaje = "Tinaco AP por debajo del 20%\n\n"
             self.alarmas_agua_de_lluvia['TinacoAP'] = True
             self.enviar_alarma(titulo, mensaje, self.correo_agua_de_lluvia)
-        else:
+        elif int(trama[3]) > 20 and self.alarmas_agua_de_lluvia['TinacoAP']:
             self.alarmas_agua_de_lluvia['CisternaAP'] = False
         if int(trama[4]) <= 15 and not self.alarmas_agua_de_lluvia['CisternaALL']:
             titulo = "Alarma Agua de Lluvia"
             mensaje = "Cisterna Agua de Lluvia por debajo del 15%"
             self.alarmas_agua_de_lluvia['CisternaALL'] = True
             self.enviar_alarma(titulo, mensaje, self.correo_agua_de_lluvia)
-        else:
+        elif int(trama[4]) > 15 and self.alarmas_agua_de_lluvia['CisternaALL']:
             self.alarmas_agua_de_lluvia['CisternaALL'] = False
         if int(trama[5]) <= 10 and not self.alarmas_agua_de_lluvia['TinacoALL']:
             titulo = "Alarma Agua de Lluvia"
             mensaje = "Tinaco Agua de Lluvia por debajo del 10%"
             self.alarmas_agua_de_lluvia['TinacoALL'] = True
             self.enviar_alarma(titulo, mensaje, self.correo_agua_de_lluvia)
-        else:
+        elif int(trama[6]) > 10 and self.alarmas_agua_de_lluvia['TinacoALL']:
             self.alarmas_agua_de_lluvia['TinacoALL'] = False
         if int(trama[6]) >= 10 and int(trama[6]) <= 40 and not self.alarmas_agua_de_lluvia['TinacoAJ']:
             titulo = "Alarma Agua de Lluvia"
             mensaje = "Tinaco de Agua Jabonosa debajo del 40%"
             self.alarmas_agua_de_lluvia['TinacoAJ'] = True
             self.enviar_alarma(titulo, mensaje, self.correo_agua_de_lluvia)
-        elif int(trama[6] > 40):
+        elif int(trama[6] > 40) and self.alarmas_agua_de_lluvia['TinacoAJ']:
             self.alarmas_agua_de_lluvia['TinacoAJ'] = False
 
 if __name__ == "__main__":
