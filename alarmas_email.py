@@ -6,6 +6,7 @@ from email.Utils import COMMASPACE
 from email.MIMEBase import MIMEBase
 from email.parser import Parser
 import mimetypes
+from datetime import datetime
 
 
 class alarmas_email:
@@ -43,41 +44,47 @@ class alarmas_email:
         self.desconectar_smtp()
 
     def revisar_alarma_agua_de_lluvia(self, trama):
-        if int(trama[2]) <= 30 and not self.alarmas_agua_de_lluvia['CisternaAP']:
-            titulo = "Alarma Agua de Lluvia"
-            mensaje = "Cisterna AP por debajo del 30%\n\n"
-            self.alarmas_agua_de_lluvia['CisternaAP'] = True
-            self.enviar_alarma(titulo, mensaje, self.correo_agua_de_lluvia)
-        elif int(trama[2]) > 30 and self.alarmas_agua_de_lluvia['CisternaAP']:
+        fecha = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        if int(trama[2]) <= 30:
+            if not self.alarmas_agua_de_lluvia['CisternaAP']:
+                titulo = "Alarma Agua de Lluvia"
+                mensaje = "Fecha %s\nCisterna AP por debajo del 30%%\n Valor = %s\n" % (fecha, trama[2])
+                self.alarmas_agua_de_lluvia['CisternaAP'] = True
+                self.enviar_alarma(titulo, mensaje, self.correo_agua_de_lluvia)
+        elif int(trama[2]) > 30:
             self.alarmas_agua_de_lluvia['CisternaAP'] = False
-        if int(trama[3]) <= 20 and not self.alarmas_agua_de_lluvia['TinacoAP']:
-            titulo = "Alarma Agua de Lluvia"
-            mensaje = "Tinaco AP por debajo del 20%\n\n"
-            self.alarmas_agua_de_lluvia['TinacoAP'] = True
-            self.enviar_alarma(titulo, mensaje, self.correo_agua_de_lluvia)
-        elif int(trama[3]) > 20 and self.alarmas_agua_de_lluvia['TinacoAP']:
+        if int(trama[3]) <= 20:
+            if not self.alarmas_agua_de_lluvia['TinacoAP']:
+                titulo = "Alarma Agua de Lluvia"
+                mensaje = "Fecha %s\nTinaco AP por debajo del 20%%\n Valor = %s\n" % (fecha, trama[3])
+                self.alarmas_agua_de_lluvia['TinacoAP'] = True
+                self.enviar_alarma(titulo, mensaje, self.correo_agua_de_lluvia)
+        elif int(trama[3]) > 20:
             self.alarmas_agua_de_lluvia['CisternaAP'] = False
-        if int(trama[4]) <= 15 and not self.alarmas_agua_de_lluvia['CisternaALL']:
-            titulo = "Alarma Agua de Lluvia"
-            mensaje = "Cisterna Agua de Lluvia por debajo del 15%"
-            self.alarmas_agua_de_lluvia['CisternaALL'] = True
-            self.enviar_alarma(titulo, mensaje, self.correo_agua_de_lluvia)
-        elif int(trama[4]) > 15 and self.alarmas_agua_de_lluvia['CisternaALL']:
+        if int(trama[4]) <= 15:
+            if not self.alarmas_agua_de_lluvia['CisternaALL']:
+                titulo = "Alarma Agua de Lluvia"
+                mensaje = "Fecha %s\nCisterna Agua de Lluvia por debajo del 15%%\n Valor = %s\n" % (fecha, trama[4])
+                self.alarmas_agua_de_lluvia['CisternaALL'] = True
+                self.enviar_alarma(titulo, mensaje, self.correo_agua_de_lluvia)
+        elif int(trama[4]) > 15:
             self.alarmas_agua_de_lluvia['CisternaALL'] = False
         if int(trama[5]) <= 10:
             if not self.alarmas_agua_de_lluvia['TinacoALL']:
                 titulo = "Alarma Agua de Lluvia"
-                mensaje = "Tinaco Agua de Lluvia por debajo del 10%"
+                mensaje = "Fecha %s \nTinaco Agua de lluvia por debajo del 10%% \n Valor = %s\n" % (fecha, trama[5])
                 self.alarmas_agua_de_lluvia['TinacoALL'] = True
                 self.enviar_alarma(titulo, mensaje, self.correo_agua_de_lluvia)
-        elif int(trama[6]) > 10:
+        elif int(trama[5]) > 10:
             self.alarmas_agua_de_lluvia['TinacoALL'] = False
-        if int(trama[6]) >= 10 and int(trama[6]) <= 40 and not self.alarmas_agua_de_lluvia['TinacoAJ']:
-            titulo = "Alarma Agua de Lluvia"
-            mensaje = "Tinaco de Agua Jabonosa debajo del 40%"
-            self.alarmas_agua_de_lluvia['TinacoAJ'] = True
-            self.enviar_alarma(titulo, mensaje, self.correo_agua_de_lluvia)
-        elif int(trama[6] > 40) and self.alarmas_agua_de_lluvia['TinacoAJ']:
+        if int(trama[6]) >= 10 and int(trama[6]) <= 40:
+            if not self.alarmas_agua_de_lluvia['TinacoAJ']:
+                titulo = "Alarma Agua de Lluvia"
+                mensaje = "Tinaco de Agua Jabonosa debajo del 40%"
+                mensaje = "Fecha %s\nTinaco agua jabonosa por debajo del 40%%\n Valor = %s\n" % (fecha, trama[6])
+                self.alarmas_agua_de_lluvia['TinacoAJ'] = True
+                self.enviar_alarma(titulo, mensaje, self.correo_agua_de_lluvia)
+        elif int(trama[6] > 40):
             self.alarmas_agua_de_lluvia['TinacoAJ'] = False
 
 if __name__ == "__main__":
