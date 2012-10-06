@@ -576,7 +576,8 @@ class adquisicion_toc():
 # CON,09,02,00,00,00,00,00,00
 
 if __name__ == '__main__':
-    con = controladorTarjeta()
+    adq = adquisicion_toc()
+    adq.main()
     #time.sleep(3)
     #con.enviar_comando()
 #    con.simular()
