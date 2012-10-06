@@ -15,7 +15,7 @@ class alarmas_email:
         """ Clase que se encarga de validar alarmas y enviarla por email  """
         self.correo_desde = 'telemetriatoc@gmail.com'
         self.password = 'CIETOC06'
-        self.enviar_a_correo = 'erich.cm@gmail.com'
+        self.enviar_a_correo = 'juscanga@gmail.com'
         self.server = smtplib.SMTP()
         self.controlador = controlador
         self.correo_agua_de_lluvia = 'erich.cm@gmail.com'
