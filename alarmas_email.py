@@ -15,10 +15,10 @@ class alarmas_email:
         """ Clase que se encarga de validar alarmas y enviarla por email  """
         self.correo_desde = 'telemetriatoc@gmail.com'
         self.password = 'CIETOC06'
-        self.enviar_a_correo = 'juscanga@gmail.com'
+        self.enviar_a_correo = 'erich.cm@gmail.com'
         self.server = smtplib.SMTP()
         self.controlador = controlador
-        self.correo_agua_de_lluvia = 'erich.cm@gmail.com'
+        self.correo_agua_de_lluvia = 'juscanga@gmail.com'
         self.alarmas_agua_de_lluvia = {'CisternaAP': False,
                                         'TinacoAP': False,
                                         'CisternaALL': False,
@@ -61,6 +61,8 @@ class alarmas_email:
                     self.alarmas_agua_de_lluvia['CisternaAP'] = True
                     self.enviar_alarma(titulo, mensaje,
                                         self.correo_agua_de_lluvia)
+                    self.enviar_alarma(titulo, mensaje,
+                                        self.enviar_a_correo)
                 else:
                     self.filtro_alarmas['CisternaAP'] += 1
         elif int(trama[2]) > 30:
@@ -74,6 +76,8 @@ class alarmas_email:
                     self.alarmas_agua_de_lluvia['TinacoAP'] = True
                     self.enviar_alarma(titulo, mensaje,
                                         self.correo_agua_de_lluvia)
+                    self.enviar_alarma(titulo, mensaje,
+                                        self.enviar_a_correo)
                 else:
                     self.filtro_alarmas['TinacoAP'] += 1
         elif int(trama[3]) > 20:
@@ -87,6 +91,8 @@ class alarmas_email:
                     self.alarmas_agua_de_lluvia['CisternaALL'] = True
                     self.enviar_alarma(titulo, mensaje,
                                         self.correo_agua_de_lluvia)
+                    self.enviar_alarma(titulo, mensaje,
+                                        self.enviar_a_correo)
                 else:
                     self.filtro_alarmas['CisternaALL'] += 1
         elif int(trama[4]) > 15:
@@ -100,6 +106,8 @@ class alarmas_email:
                     self.alarmas_agua_de_lluvia['TinacoALL'] = True
                     self.enviar_alarma(titulo, mensaje,
                                         self.correo_agua_de_lluvia)
+                    self.enviar_alarma(titulo, mensaje,
+                                        self.enviar_a_correo)
                 else:
                     self.filtro_alarmas['TinacoALL'] += 1
         elif int(trama[5]) > 10:
@@ -114,6 +122,8 @@ class alarmas_email:
                     self.alarmas_agua_de_lluvia['TinacoAJ'] = True
                     self.enviar_alarma(titulo, mensaje,
                                         self.correo_agua_de_lluvia)
+                    self.enviar_alarma(titulo, mensaje,
+                                        self.enviar_a_correo)
                 else:
                     self.filtro_alarmas['TinacoAJ'] += 1
         elif int(trama[6] > 40):
