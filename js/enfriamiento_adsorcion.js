@@ -142,7 +142,7 @@ function obtenerPresion1(id, presion)
 {
     var grafica_presion = new RGraph.Gauge(id, 0, 1000, parseInt(presion));
     grafica_presion.Set('chart.title', 'Presion');
-    grafica_presion.Set('chart.title.size', 14);
+    grafica_presion.Set('chart.title.size', 12);
     grafica_presion.Set('chart.title.bottom', presion.toString());
     grafica_presion.Set('chart.title.bottom.size', 12);
     return grafica_presion;
@@ -152,7 +152,7 @@ function obtenerPresionDomo(id, presion)
 {
     var grafica_presion = new RGraph.Gauge(id, 0, 1000, parseInt(presion));
     grafica_presion.Set('chart.title', 'Presion domo');
-    grafica_presion.Set('chart.title.size', 14);
+    grafica_presion.Set('chart.title.size', 12);
     grafica_presion.Set('chart.title.bottom', presion.toString());
     grafica_presion.Set('chart.title.bottom.size', 12);
     return grafica_presion;
@@ -162,7 +162,7 @@ function obtenerPresionTuberia(id, presion)
 {
     var grafica_presion = new RGraph.Gauge(id, 0, 1000, parseInt(presion));
     grafica_presion.Set('chart.title', 'Presion tuberia');
-    grafica_presion.Set('chart.title.size', 14);
+    grafica_presion.Set('chart.title.size', 12);
     grafica_presion.Set('chart.title.bottom', presion.toString());
     grafica_presion.Set('chart.title.bottom.size', 12);
     return grafica_presion;
