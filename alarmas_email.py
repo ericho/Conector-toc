@@ -63,6 +63,7 @@ class alarmas_email:
                                         self.correo_agua_de_lluvia)
                     self.enviar_alarma(titulo, mensaje,
                                         self.enviar_a_correo)
+                    self.controlador.guardar_evento(mensaje, '13')
                 else:
                     self.filtro_alarmas['CisternaAP'] += 1
         elif int(trama[2]) > 30:
@@ -78,6 +79,7 @@ class alarmas_email:
                                         self.correo_agua_de_lluvia)
                     self.enviar_alarma(titulo, mensaje,
                                         self.enviar_a_correo)
+                    self.controlador.guardar_evento(mensaje, '13')
                 else:
                     self.filtro_alarmas['TinacoAP'] += 1
         elif int(trama[3]) > 20:
@@ -93,6 +95,7 @@ class alarmas_email:
                                         self.correo_agua_de_lluvia)
                     self.enviar_alarma(titulo, mensaje,
                                         self.enviar_a_correo)
+                    self.controlador.guardar_evento(mensaje, '13')
                 else:
                     self.filtro_alarmas['CisternaALL'] += 1
         elif int(trama[4]) > 15:
@@ -108,6 +111,7 @@ class alarmas_email:
                                         self.correo_agua_de_lluvia)
                     self.enviar_alarma(titulo, mensaje,
                                         self.enviar_a_correo)
+                    self.controlador.guardar_evento(mensaje, '13')
                 else:
                     self.filtro_alarmas['TinacoALL'] += 1
         elif int(trama[5]) > 10:
@@ -124,6 +128,7 @@ class alarmas_email:
                                         self.correo_agua_de_lluvia)
                     self.enviar_alarma(titulo, mensaje,
                                         self.enviar_a_correo)
+                    self.controlador.guardar_evento(mensaje, '13')
                 else:
                     self.filtro_alarmas['TinacoAJ'] += 1
         elif int(trama[6] > 40):

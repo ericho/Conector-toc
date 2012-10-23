@@ -7,11 +7,12 @@ Created on 12/12/2011
 '''
 
 class validador():
-    ''' Clase para validar los errores en las tramas recibidas por la tarjeta '''
+    ''' Clase para validar los errores en las
+    tramas recibidas por la tarjeta '''
     def __init__(self, controlador):
         ''' Constructor de la clase '''
         self.controlador = controlador
-		
+
     def validar_biodigestor_metano(self, trama):
         try:
             float(trama[2])
@@ -28,7 +29,7 @@ class validador():
             cadena_excepcion = "Trama Biodigestor Metano incorrecta : %s" % (trama)
             self.controlador.logs.exception(cadena_excepcion)
             return False
-		
+
     def validar_torre_bioetanol(self, trama):
         try:
             float(trama[2])
@@ -44,7 +45,7 @@ class validador():
             cadena_excepcion = "Trama Torre Bioetanol incorrecta : %s" % (trama)
             self.controlador.logs.exception(cadena_excepcion)
             return False	
-	
+
     def validar_reactor_biodiesel(self, trama):
         try:
             float(trama[2])
