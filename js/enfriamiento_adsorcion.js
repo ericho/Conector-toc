@@ -73,7 +73,7 @@ $(document).ready(function(){
 
 
 function llenarPestanasDeck(){
-    var html = "<div width='100%' height:'250'><canvas id='termo_agua_fria' width='80' height='250' style='float:left'></canvas><canvas id='termo_agua_caliente' width='80' height='250' style='float:left'></canvas><canvas id='termo_sal_caliente' width='80' height='250' style='float:left'></canvas><canvas id='termo_tuberia' width='80' height='250' style='float:left'></canvas><br /><br /><br /><br /><br /><canvas id='presion_1' width='200px' height='200px' style='float:left'></canvas><canvas id='presion_domo' width='200px' height='200px' style='float:left'></canvas><canvas id='presion_tuberia' width='200px' height='200px' style='float:left'></canvas></div><div id='tabla_datos_reciente' style='float:left; width:auto; padding-left:10px;'></div>";
+    var html = "<div width='100%' height:'250'><canvas id='termo_agua_fria' width='80' height='250' style='float:left'></canvas><canvas id='termo_agua_caliente' width='80' height='250' style='float:left'></canvas><canvas id='termo_sal_caliente' width='80' height='250' style='float:left'></canvas><canvas id='termo_tuberia' width='80' height='250' style='float:left'></canvas><br /><br /><br /><br /><br /><br /><br /><br /><br /><canvas id='presion_1' width='200px' height='200px' style='float:left'></canvas><canvas id='presion_domo' width='200px' height='200px' style='float:left'></canvas><canvas id='presion_tuberia' width='200px' height='200px' style='float:left'></canvas></div><div id='tabla_datos_reciente' style='float:left; width:auto; padding-left:10px;'></div>";
 
     var html_reporte  = '<div id="div_forma_reporte"><form id="forma_reporte"><legend>Tipo de reporte :</legend><input type="radio" name="tipo_reporte" id="reporte_diario" checked="checked"> Diario<input type="radio" name="tipo_reporte" id="reporte_rango"> Rango de fechas<br><label id="l_fecha">Seleccionar fecha : </label><input type="text" name="fecha" id="fecha_reporte"><br/><label>Fecha final : </label><input type="text" name="fecha2" id="fecha2_reporte" disabled="disabled"><br/><button id="boton_reporte">Generar reporte</button><button id="boton_descargar">Descargar datos</button></form></div><div id="id_exportar"></div><center><div id="canvas_reporte"><canvas id="grafica_temp_reporte" width="650" height="250" ></canvas><br/><canvas id="grafica_presion_reporte" width="500" height="180"></canvas></div></center>';
 
@@ -317,7 +317,7 @@ function crearArregloTooltipsPresion(){
 }
 
 function obtenerGraficaTemps(id){
-    var grafica = new RGraph.Line(id, [window.reporte_temp_agua_fria, window.reporte_temp_agua_caliente, window.reporte_salida_caliente, window.reporte_temp_tuberia]);
+    var grafica = new RGraph.Line(id, [window.reporte_temp_agua_fria, window.reporte_temp_agua_caliente, window.reporte_temp_salida_caliente, window.reporte_temp_tuberia]);
     var arreglos = crearArregloTooltips();
     
     grafica.Set('chart.background.barcolor1', 'white');
