@@ -73,7 +73,7 @@ $(document).ready(function(){
 
 
 function llenarPestanasDeck(){
-    var html = "<div width='100%' height:'250'><canvas id='presion_1' width='150px' height='150px' style='float:left'></canvas><canvas id='presion_domo' width='150px' height='150px' style='float:left'></canvas><canvas id='presion_tuberia' width='150px' height='150px' style='float:left'></canvas><br /><br /><canvas id='termo_agua_fria' width='80' height='250' style='float:left'></canvas><canvas id='termo_agua_caliente' width='80' height='250' style='float:left'></canvas><canvas id='termo_sal_caliente' width='80' height='250' style='float:left'></canvas><canvas id='termo_tuberia' width='80' height='250' style='float:left'></canvas></div><div id='tabla_datos_reciente' style='float:left; width:auto; padding-left:10px;'></div>";
+    var html = "<div width='100%' height:'250'><canvas id='termo_agua_fria' width='80' height='250' style='float:left'></canvas><canvas id='termo_agua_caliente' width='80' height='250' style='float:left'></canvas><canvas id='termo_sal_caliente' width='80' height='250' style='float:left'></canvas><canvas id='termo_tuberia' width='80' height='250' style='float:left'></canvas><canvas id='presion_1' width='150px' height='150px' style='float:left'></canvas><canvas id='presion_domo' width='150px' height='150px' style='float:left'></canvas><canvas id='presion_tuberia' width='150px' height='150px' style='float:left'></canvas></div><div id='tabla_datos_reciente' style='float:left; width:auto; padding-left:10px;'></div>";
 
     var html_reporte  = '<div id="div_forma_reporte"><form id="forma_reporte"><legend>Tipo de reporte :</legend><input type="radio" name="tipo_reporte" id="reporte_diario" checked="checked"> Diario<input type="radio" name="tipo_reporte" id="reporte_rango"> Rango de fechas<br><label id="l_fecha">Seleccionar fecha : </label><input type="text" name="fecha" id="fecha_reporte"><br/><label>Fecha final : </label><input type="text" name="fecha2" id="fecha2_reporte" disabled="disabled"><br/><button id="boton_reporte">Generar reporte</button><button id="boton_descargar">Descargar datos</button></form></div><div id="id_exportar"></div><center><div id="canvas_reporte"><canvas id="grafica_temp_reporte" width="650" height="250" ></canvas><br/><canvas id="grafica_presion_reporte" width="500" height="180"></canvas></div></center>';
 
@@ -117,8 +117,8 @@ function dibujarGraficasRecientes(json){
     var presion_1 = obtenerPresion1(id_presion_1, json.presion);
     var presion_domo = obtenerPresionDomo(id_presion_domo, json.presion_domo);
     var presion_tuberia = obtenerPresionTuberia(id_presion_tuberia, json.presion_tuberia);
-    var termo_tub_fria = obtenerTermoAguaFria(id_termo_tub_fria, json.temp_tuberia_1);
-    var termo_tub_caliente = obtenerTermoAguaCaliente(id_termo_tub_caliente, json.temp_tuberia_2);
+    var termo_tub_fria = obtenerTermoAguaFria(id_termo_agua_fria, json.temp_tuberia_1);
+    var termo_tub_caliente = obtenerTermoAguaCaliente(id_termo_agua_caliente, json.temp_tuberia_2);
     var termo_tub_salida = obtenerTermoTubSalida(id_termo_sal_caliente, json.temp_agua_caliente);
     var termo_tuberia = obtenerTermoTuberia(id_termo_tuberia, json.temp_agua_fria);
 //    var tabla_reciente = obtenerTablaRecientes(json);
