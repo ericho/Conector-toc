@@ -232,7 +232,7 @@ function obtenerJSONReporte(fecha){
         $.each(json, function(index, ejson){
             window.reporte_presion.push(ejson.presion);
             window.reporte_presion_domo.push(ejson.presion_domo);
-            window.reporte_presion_tuberia.push(jeson.presion_tuberia);
+            window.reporte_presion_tuberia.push(ejson.presion_tuberia);
 	        window.reporte_temp_agua_fria.push(ejson.temp_agua_fria);
 	        window.reporte_temp_agua_caliente.push(ejson.temp_agua_caliente);
 	        window.reporte_temp_salida_caliente.push(ejson.temp_salida_caliente);
@@ -257,7 +257,7 @@ function obtenerReporteRango(fecha1, fecha2){
         $.each(json, function(index, ejson){
             window.reporte_presion.push(ejson.presion);
             window.reporte_presion_domo.push(ejson.presion_domo);
-            window.reporte_presion_tuberia.push(jeson.presion_tuberia);
+            window.reporte_presion_tuberia.push(ejson.presion_tuberia);
 	        window.reporte_temp_agua_fria.push(ejson.temp_agua_fria);
 	        window.reporte_temp_agua_caliente.push(ejson.temp_agua_caliente);
 	        window.reporte_temp_salida_caliente.push(ejson.temp_salida_caliente);
