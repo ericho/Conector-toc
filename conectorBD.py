@@ -69,7 +69,7 @@ class conectorBD():
             error_det = 'Error %d: %s' % (e.args[0], e.args[1])
             print error_msg + error_cmd + error_det
             self.controlador.logs.exception(error_msg + error_cmd + error_det)
-            self.conexion_activa = False
+            #self.conexion_activa = False
 
     def insertar_evento(self, fecha, modulo, evento):
         comando = "INSERT INTO bitacora VALUES(NULL,"

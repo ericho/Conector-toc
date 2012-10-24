@@ -80,7 +80,7 @@ $(document).ready(function(){
 
 
 function llenarPestanasDeck(){
-    var html = "<div width='100%' height:'250'><canvas id='niveles' width='480px' height='250px' style='float:left'></canvas></div><div id='tabla_bombas' style='float:left; width:auto; padding-left:10px;'></div>";
+    var html = "<div width='100%' height:'250'><canvas id='niveles' width='700px' height='300px' style='float:left'></canvas></div><div id='tabla_bombas' style='float:left; width:auto; padding-left:10px;'></div>";
 
     var html_reporte  = '<div id="div_forma_reporte"><form id="forma_reporte"><legend>Tipo de reporte :</legend><input type="radio" name="tipo_reporte" id="reporte_diario" checked="checked"> Diario<input type="radio" name="tipo_reporte" id="reporte_rango"> Rango de fechas<br><label id="l_fecha">Seleccionar fecha : </label><input type="text" name="fecha" id="fecha_reporte"><br/><label>Fecha final : </label><input type="text" name="fecha2" id="fecha2_reporte" disabled="disabled"><br/><button id="boton_reporte">Generar reporte</button><button id="boton_descargar">Descargar datos</button></form></div><div id="id_exportar"></div><div id="canvas_reporte"><canvas id="grafica_nivel_reporte" width="650" height="210" ></canvas><br/></div>';
 
@@ -132,26 +132,29 @@ function obtenerGraficaNiveles(id_niveles, json){
     var grafica = new RGraph.Bar(id_niveles, [[parseInt(json.nivel_1), parseInt(json.nivel_2), parseInt(json.nivel_3), parseInt(json.nivel_4), parseInt(json.nivel_5), parseInt(json.nivel_6)]]);
     grafica.Set('chart.background.barcolor1', 'white');
     grafica.Set('chart.background.barcolor2', 'white');
-    grafica.Set('chart.labels', ['Nivel 1', 'Nivel 2', 'Nivel 3', 'Nivel 4', 'Nivel 5', 'Nivel 6']);
+    grafica.Set('chart.key', ['Cisterna AP', 'Tinaco AP', 'Cisterna ALL', 'Tinaco ALL', 'Tinaco AJ', 'Cisterna AJ']);
+    grafica.Set('chart.key.position', ['gutter']);
+    grafica.Set('chart.key.interactive', true);
+    grafica.Set('chart.key.position.y', grafica.canvas.height - 20);
     grafica.Set('chart.background.grid', true);
     grafica.Set('chart.ymax', 100);
     grafica.Set('chart.tooltips', [json.nivel_1 + ' %', json.nivel_2 + ' %', json.nivel_3 + ' %', json.nivel_4 + ' %', json.nivel_5 + ' %', json.nivel_6 + ' %']);
     grafica.Set('chart.title', 'Niveles');
+    grafica.Set('chart.title.vpos', 0.5);
     grafica.Set('chart.colors', ['#2295d7', '#d76722', '#6b22d7', '#309f14', '#d53a26', '#263cd5']);
-//    grafica.Set('chart.key', ['Nivel 1', 'Nivel 2', 'Nivel 3', 'Nivel 4', 'Nivel 5', 'Nivel 6']);
     return grafica;
 }
 
 function obtenerTablaRecientes(json){
     var html = 'Ultima actividad :' + json.fecha + '<table class="tablavariables_1" id="t_reciente"><thead><tr><td><b>Otras Variables</b></td><td><b>Estado</b></td></tr></thead>';
-    html += "<tr><td>Bomba 1</td>";
+    html += "<tr><td>Bomba Agua Jabonosa</td>";
     if (json.bomba_1 == "1"){
 	html += "<td id='activo' style='color: green'>Activo</td></tr>";
     }
     else{
 	html += "<td id='inactivo' style='color:red'>Inactivo</td></tr>";
     }
-    html += "<tr><td>Bomba 2</td>";
+    html += "<tr><td>Bomba Agua de Lluvia</td>";
     if (json.bomba_2 == "1"){
 	html += "<td id='Activo' style='color:green'>Activo</td></tr>";
     }
@@ -267,8 +270,10 @@ function obtenerGraficaNivel(id){
     grafica.Set('chart.title.vpos', 0.65);
     grafica.Set('chart.title.hpos', 0.1);
     grafica.Set('chart.tickmarks', 'circle');
-    grafica.Set('chart.key', ['Nivel 1', 'Nivel 2', 'Nivel 3', 'Nivel 4', 'Nivel 5', 'Nivel 6']);
-    grafica.Set('chart.key.position', ['gutter']);
+//    grafica.Set('chart.key', ['Nivel 1', 'Nivel 2', 'Nivel 3', 'Nivel 4', 'Nivel 5', 'Nivel 6']);
+    grafica.Set('chart.key', ['Cisterna AP', 'Tinaco AP', 'Cisterna ALL', 'Tinaco ALL', 'Tinaco AJ', 'Cisterna AJ']);
+
+   grafica.Set('chart.key.position', ['gutter']);
     grafica.Set('chart.key.position.gutter.boxed', false);
     grafica.Set('chart.tooltips', arreglo);
     grafica.Set('chart.tooltips.effect', 'contract');
