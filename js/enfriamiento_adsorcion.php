@@ -54,7 +54,7 @@ function enfriamiento_adsorcion_diario($fecha, $act)
   while($fila = mysql_fetch_array($res))
     {
   
-  $arreglo = array("id" => $fila[0],
+  $arreglo_tmp = array("id" => $fila[0],
                    "fecha_hora" => $fila[1],
                    "presion" => $fila[2],
                    "presion_domo" => $fila[3],

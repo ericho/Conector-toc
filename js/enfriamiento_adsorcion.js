@@ -73,7 +73,7 @@ $(document).ready(function(){
 
 
 function llenarPestanasDeck(){
-    var html = "<div width='100%' height:'250'><canvas id='termo_agua_fria' width='80' height='250' style='float:left'></canvas><canvas id='termo_agua_caliente' width='80' height='250' style='float:left'></canvas><canvas id='termo_sal_caliente' width='80' height='250' style='float:left'></canvas><canvas id='termo_tuberia' width='80' height='250' style='float:left'></canvas><canvas id='presion_1' width='150px' height='150px' style='float:left'></canvas><canvas id='presion_domo' width='150px' height='150px' style='float:left'></canvas><canvas id='presion_tuberia' width='150px' height='150px' style='float:left'></canvas></div><div id='tabla_datos_reciente' style='float:left; width:auto; padding-left:10px;'></div>";
+    var html = "<div width='100%' height:'250'><canvas id='termo_agua_fria' width='80' height='250' style='float:left'></canvas><canvas id='termo_agua_caliente' width='80' height='250' style='float:left'></canvas><canvas id='termo_sal_caliente' width='80' height='250' style='float:left'></canvas><canvas id='termo_tuberia' width='80' height='250' style='float:left'></canvas><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><canvas id='presion_1' width='200px' height='200px' style='float:left'></canvas><canvas id='presion_domo' width='200px' height='200px' style='float:left'></canvas><canvas id='presion_tuberia' width='200px' height='200px' style='float:left'></canvas></div><div id='tabla_datos_reciente' style='float:left; width:auto; padding-left:10px;'></div>";
 
     var html_reporte  = '<div id="div_forma_reporte"><form id="forma_reporte"><legend>Tipo de reporte :</legend><input type="radio" name="tipo_reporte" id="reporte_diario" checked="checked"> Diario<input type="radio" name="tipo_reporte" id="reporte_rango"> Rango de fechas<br><label id="l_fecha">Seleccionar fecha : </label><input type="text" name="fecha" id="fecha_reporte"><br/><label>Fecha final : </label><input type="text" name="fecha2" id="fecha2_reporte" disabled="disabled"><br/><button id="boton_reporte">Generar reporte</button><button id="boton_descargar">Descargar datos</button></form></div><div id="id_exportar"></div><center><div id="canvas_reporte"><canvas id="grafica_temp_reporte" width="650" height="250" ></canvas><br/><canvas id="grafica_presion_reporte" width="500" height="180"></canvas></div></center>';
 
@@ -101,6 +101,7 @@ function dibujarGraficasRecientes(json){
     var id_termo_agua_caliente = "termo_agua_caliente";
     var id_termo_sal_caliente = "termo_sal_caliente";
     var id_termo_tuberia = "termo_tuberia";
+    var id_tabla_reciente = "#tabla_datos_reciente";
     
 
     // limpiando canvas
@@ -117,10 +118,10 @@ function dibujarGraficasRecientes(json){
     var presion_1 = obtenerPresion1(id_presion_1, json.presion);
     var presion_domo = obtenerPresionDomo(id_presion_domo, json.presion_domo);
     var presion_tuberia = obtenerPresionTuberia(id_presion_tuberia, json.presion_tuberia);
-    var termo_tub_fria = obtenerTermoAguaFria(id_termo_agua_fria, json.temp_tuberia_1);
-    var termo_tub_caliente = obtenerTermoAguaCaliente(id_termo_agua_caliente, json.temp_tuberia_2);
-    var termo_tub_salida = obtenerTermoTubSalida(id_termo_sal_caliente, json.temp_agua_caliente);
-    var termo_tuberia = obtenerTermoTuberia(id_termo_tuberia, json.temp_agua_fria);
+    var termo_tub_fria = obtenerTermoAguaFria(id_termo_agua_fria, json.temp_agua_fria);
+    var termo_tub_caliente = obtenerTermoAguaCaliente(id_termo_agua_caliente, json.temp_agua_caliente);
+    var termo_tub_salida = obtenerTermoTubSalida(id_termo_sal_caliente, json.temp_salida_caliente);
+    var termo_tuberia = obtenerTermoTuberia(id_termo_tuberia, json.temp_tuberia);
 //    var tabla_reciente = obtenerTablaRecientes(json);
 
     var html = "Ultima actividad : " + json.fecha_hora;
@@ -141,7 +142,7 @@ function obtenerPresion1(id, presion)
 {
     var grafica_presion = new RGraph.Gauge(id, 0, 1000, parseInt(presion));
     grafica_presion.Set('chart.title', 'Presion');
-    grafica_presion.Set('chart.title.size', 14);
+    grafica_presion.Set('chart.title.size', 12);
     grafica_presion.Set('chart.title.bottom', presion.toString());
     grafica_presion.Set('chart.title.bottom.size', 12);
     return grafica_presion;
@@ -151,7 +152,7 @@ function obtenerPresionDomo(id, presion)
 {
     var grafica_presion = new RGraph.Gauge(id, 0, 1000, parseInt(presion));
     grafica_presion.Set('chart.title', 'Presion domo');
-    grafica_presion.Set('chart.title.size', 14);
+    grafica_presion.Set('chart.title.size', 12);
     grafica_presion.Set('chart.title.bottom', presion.toString());
     grafica_presion.Set('chart.title.bottom.size', 12);
     return grafica_presion;
@@ -161,7 +162,7 @@ function obtenerPresionTuberia(id, presion)
 {
     var grafica_presion = new RGraph.Gauge(id, 0, 1000, parseInt(presion));
     grafica_presion.Set('chart.title', 'Presion tuberia');
-    grafica_presion.Set('chart.title.size', 14);
+    grafica_presion.Set('chart.title.size', 12);
     grafica_presion.Set('chart.title.bottom', presion.toString());
     grafica_presion.Set('chart.title.bottom.size', 12);
     return grafica_presion;
@@ -231,7 +232,7 @@ function obtenerJSONReporte(fecha){
         $.each(json, function(index, ejson){
             window.reporte_presion.push(ejson.presion);
             window.reporte_presion_domo.push(ejson.presion_domo);
-            window.reporte_presion_tuberia.push(jeson.presion_tuberia);
+            window.reporte_presion_tuberia.push(ejson.presion_tuberia);
 	        window.reporte_temp_agua_fria.push(ejson.temp_agua_fria);
 	        window.reporte_temp_agua_caliente.push(ejson.temp_agua_caliente);
 	        window.reporte_temp_salida_caliente.push(ejson.temp_salida_caliente);
@@ -256,7 +257,7 @@ function obtenerReporteRango(fecha1, fecha2){
         $.each(json, function(index, ejson){
             window.reporte_presion.push(ejson.presion);
             window.reporte_presion_domo.push(ejson.presion_domo);
-            window.reporte_presion_tuberia.push(jeson.presion_tuberia);
+            window.reporte_presion_tuberia.push(ejson.presion_tuberia);
 	        window.reporte_temp_agua_fria.push(ejson.temp_agua_fria);
 	        window.reporte_temp_agua_caliente.push(ejson.temp_agua_caliente);
 	        window.reporte_temp_salida_caliente.push(ejson.temp_salida_caliente);
@@ -316,7 +317,7 @@ function crearArregloTooltipsPresion(){
 }
 
 function obtenerGraficaTemps(id){
-    var grafica = new RGraph.Line(id, [window.reporte_temp_agua_fria, window.reporte_temp_agua_caliente, window.reporte_salida_caliente, window.reporte_temp_tuberia]);
+    var grafica = new RGraph.Line(id, [window.reporte_temp_agua_fria, window.reporte_temp_agua_caliente, window.reporte_temp_salida_caliente, window.reporte_temp_tuberia]);
     var arreglos = crearArregloTooltips();
     
     grafica.Set('chart.background.barcolor1', 'white');
