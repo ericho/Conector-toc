@@ -69,7 +69,7 @@ $(document).ready(function(){
 });
 
 function llenarPestanasDeck(){
-    var html = "<div width='100%' height:'250'><canvas id='termo_ambiente' width='80px' height='250px' style='float:left'></canvas><canvas id='termo_interior' width='80' height='250' style='float:left'></canvas><canvas id='termo_agua' width='80' height='250' style='float:left'></canvas><canvas id='grafica_humedad' width='200' height='200' style='float:left'></canvas><canvas id='grafica_nivel' width='200' height='200' style='float:left'></canvas><br /></div><div id='tabla_datos_reciente' style='float:left; width:auto; padding-left:10px;'></div>";
+    var html = "<div width='100%' height:'250'><canvas id='termo_ambiente' width='80px' height='250px' style='float:left'></canvas><canvas id='termo_interior' width='80' height='250' style='float:left'></canvas><canvas id='termo_agua' width='80' height='250' style='float:left'></canvas><canvas id='grafica_humedad' width='250' height='200' style='float:left'></canvas><canvas id='grafica_nivel' width='220' height='200' style='float:left'></canvas><br /></div><div id='tabla_datos_reciente' style='float:left; width:auto; padding-left:10px;'></div>";
 
     var html_reporte  = '<div id="div_forma_reporte"><form id="forma_reporte"><legend>Tipo de reporte :</legend><input type="radio" name="tipo_reporte" id="reporte_diario" checked="checked"> Diario<input type="radio" name="tipo_reporte" id="reporte_rango"> Rango de fechas<br><label id="l_fecha">Seleccionar fecha : </label><input type="text" name="fecha" id="fecha_reporte"><br/><label>Fecha final : </label><input type="text" name="fecha2" id="fecha2_reporte" disabled="disabled"><br/><button id="boton_reporte">Generar reporte</button><button id="boton_descargar">Descargar datos</button></form></div><div id="id_exportar"></div><center><div id="canvas_reporte"><canvas id="grafica_temp_reporte" width="650" height="250" ></canvas><br/><canvas id="grafica_nivel_reporte" width="650" height="250"></canvas><br /><canvas id="grafica_humedad_reporte" width="650" height="250"></canvas></div></center>';
 
@@ -176,11 +176,12 @@ function obtenerGraficaHumedad(id, json){
     //grafica_humedad.Set('chart.title', 'Nivel contenedor');
     //grafica_humedad.Set('chart.title.vpos', 0.65);
     //grafica_humedad.Set('chart.title.hpos', 0.1);
-    grafica_humedad.Set('chart.colors', ['#3366ff', '#0000cc']);
-    grafica_humedad.Set('chart.fillstyle', ['rgba(33,66,ff,0.3)', 'rgba(0,0,cc,0.3)']);
+    grafica_humedad.Set('chart.colors', ['#31b404', '#0489b1']);
+    grafica_humedad.Set('chart.fillstyle', ['rgba(31,b4,04,0.3)', 'rgba(04,89,b1,0.3)']);
     grafica_humedad.Set('chart.key', ['Humedad 1', 'Humedad 2']);
     grafica_humedad.Set('chart.key.position', ['gutter']);
-    grafica_humedad.Set('chart.key.position.gutter.boxed', false);
+    grafica_humedad.Set('chart.key.position.y', grafica_humedad.canvas.height - 20);
+    //grafica_humedad.Set('chart.key.position.gutter.boxed', false);
     if (!RGraph.isIE8()){
 	   grafica_humedad.Set('chart.contextmenu', [['Zoom in', RGraph.Zoom], ['Cancel', function(){}]]);
 	   grafica_humedad.Set('chart.zoom.delay', 10);
@@ -191,7 +192,7 @@ function obtenerGraficaHumedad(id, json){
 }
 
 function obtenerGraficaNivel(id, json){
-    
+    // Humedad 1 ambiente, humedad 2 humedad del condensador
     var grafica_nivel = new RGraph.Bar(id, [parseInt(json.flujo_agua)]);
     grafica_nivel.Set('chart.background.barcolor1', 'white');
     grafica_nivel.Set('chart.background.barcolor2', 'white');
@@ -205,9 +206,10 @@ function obtenerGraficaNivel(id, json){
     //grafica_humedad.Set('chart.title.hpos', 0.1);
     grafica_nivel.Set('chart.colors', ['#3366ff']);
     grafica_nivel.Set('chart.fillstyle', ['rgba(33,66,ff,0.3)']);
-    grafica_nivel.Set('chart.key', ['Nivel agua']);
+    grafica_nivel.Set('chart.key', ['Recipiente de agua condensada']);
     grafica_nivel.Set('chart.key.position', ['gutter']);
-    grafica_nivel.Set('chart.key.position.gutter.boxed', false);
+    grafica_nivel.Set('chart.key.position.y', grafica_nivel.canvas.height - 20);
+    //grafica_nivel.Set('chart.key.position.gutter.boxed', false);
     if (!RGraph.isIE8()){
 	   grafica_nivel.Set('chart.contextmenu', [['Zoom in', RGraph.Zoom], ['Cancel', function(){}]]);
 	   grafica_nivel.Set('chart.zoom.delay', 10);
@@ -220,14 +222,14 @@ function obtenerGraficaNivel(id, json){
 function obtenerTablaRecientes(datos){
     
     var html = 'Ultima actividad registrada:' + datos.fecha + '<br /><table class="tablavariables_1" id="t_reciente"><thead><tr><td><b>Otras Variables</b></td><td><b>Estado</b></td></tr></thead>';
-     html += "<tr><td>Estado LDR</td>";
+     html += "<tr><td>Estado de sensor de luz</td>";
     if (datos.ldr_estado == "1"){
 	html += "<td id='activo' style='color: green'>Activo</td></tr>";
     }
     else{
 	html += "<td id='inactivo' style='color:red'>Inactivo</td></tr>";
     }
-    html += "<tr><td>Estado motor</td>";
+    html += "<tr><td>Estado de motor de recipiente de agua condensada</td>";
     if (datos.motor_estado == "1"){
 	html += "<td id='activo' style='color: green'>Activo</td></tr>";
     }

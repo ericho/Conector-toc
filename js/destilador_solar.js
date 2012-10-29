@@ -69,9 +69,9 @@ $(document).ready(function(){
 
 
 function llenarPestanasDeck(){
-    var html = "<div width='100%' height:'250'><canvas id='termo_sol' width='80px' height='250px' style='float:left'></canvas><canvas id='termo_lente' width='80' height='250' style='float:left'></canvas><canvas id='termo_interna' width='80' height='250' style='float:left'></canvas><canvas id='grafica_nivel' width='200' height='200' style='float:left'></canvas></div><div id='ultima_actividad'></div>";
+    var html = "<div id='ultima_actividad'></div><div width='100%' height:'250'><canvas id='termo_sol' width='80px' height='250px' style='float:left'></canvas><canvas id='termo_lente' width='80' height='250' style='float:left'></canvas><canvas id='termo_interna' width='80' height='250' style='float:left'></canvas><canvas id='grafica_nivel' width='200' height='200' style='float:left'></canvas></div>";
 
-    var html_reporte  = '<div id="div_forma_reporte"><form id="forma_reporte"><legend>Tipo de reporte :</legend><input type="radio" name="tipo_reporte" id="reporte_diario" checked="checked"> Diario<input type="radio" name="tipo_reporte" id="reporte_rango"> Rango de fechas<br><label id="l_fecha">Seleccionar fecha : </label><input type="text" name="fecha" id="fecha_reporte"><br/><label>Fecha final : </label><input type="text" name="fecha2" id="fecha2_reporte" disabled="disabled"><br/><button id="boton_reporte">Generar reporte</button><button id="boton_descargar">Descargar datos</button></form></div><div id="id_exportar"></div><div id="canvas_reporte"><canvas id="grafica_temps_reporte" width="500" height="210" ></canvas><br/><canvas id="grafica_nivel_reporte" width="500" height="180"></canvas></div>';
+    var html_reporte  = '<div id="div_forma_reporte"><form id="forma_reporte"><legend>Tipo de reporte :</legend><input type="radio" name="tipo_reporte" id="reporte_diario" checked="checked"> Diario<input type="radio" name="tipo_reporte" id="reporte_rango"> Rango de fechas<br><label id="l_fecha">Seleccionar fecha : </label><input type="text" name="fecha" id="fecha_reporte"><br/><label>Fecha final : </label><input type="text" name="fecha2" id="fecha2_reporte" disabled="disabled"><br/><button id="boton_reporte">Generar reporte</button><button id="boton_descargar">Descargar datos</button></form></div><div id="id_exportar"></div><div id="canvas_reporte"><canvas id="grafica_temps_reporte" width="650" height="210" ></canvas><br/><canvas id="grafica_nivel_reporte" width="650" height="180"></canvas></div>';
 
     var html_eventos = '<div id="div_forma_eventos"><form id="forma_eventos"><legend>Seleccionar fecha :<input type="text" name="fecha" id="fecha_evento"> <button id="boton_evento">Mostrar eventos</button></form></div><div id="tabla_eventos"></div>';
 
@@ -159,9 +159,10 @@ function obtenerGraficaNivelActual(id, json){
     //grafica_niveles.Set('chart.title.hpos', 0.1);
     grafica_niveles.Set('chart.colors', ['#3366ff']);
     grafica_niveles.Set('chart.fillstyle', ['rgba(33,66,ff,0.3)']);
-    grafica_niveles.Set('chart.key', ['Nivel Contenedor']);
+    grafica_niveles.Set('chart.key', ['Contenedor de agua destilada']);
     grafica_niveles.Set('chart.key.position', ['gutter']);
-    grafica_niveles.Set('chart.key.position.gutter.boxed', false);
+    grafica_niveles.Set('chart.key.position.y', grafica_niveles.canvas.height - 20);
+    //grafica_niveles.Set('chart.key.position.gutter.boxed', false);
     if (!RGraph.isIE8()){
 	   grafica_niveles.Set('chart.contextmenu', [['Zoom in', RGraph.Zoom], ['Cancel', function(){}]]);
 	   grafica_niveles.Set('chart.zoom.delay', 10);
