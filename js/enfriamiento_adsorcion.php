@@ -140,13 +140,13 @@ function descargar_enfriamiento_adsorcion($fecha)
     
     $cabecera = array();
     array_push($cabecera, 'Fecha');
-    array_push($cabecera, 'Presion');
-    array_push($cabecera, 'Presion domo');
-    array_push($cabecera, 'Presion tuberia');
-    array_push($cabecera, 'Temperatura agua fria');
-    array_push($cabecera, 'Temperatura agua caliente');
-    array_push($cabecera, 'Temperatura salida caliente');
-    array_push($cabecera, 'Temperatura tuberia');
+    array_push($cabecera, 'Presion Generador');
+    array_push($cabecera, 'Presion Evaporador Superior');
+    array_push($cabecera, 'Presion Evaporador Inferior');
+    array_push($cabecera, 'Temperatura Generador');
+    array_push($cabecera, 'Temperatura Evaporador Superior');
+    array_push($cabecera, 'Temperatura Evaporador Inferior');
+    array_push($cabecera, 'Temperatura Inferior');
     
     
     $archivo_csv = @fopen('php://output', 'w');

@@ -141,7 +141,7 @@ function dibujarGraficasRecientes(json){
 function obtenerPresion1(id, presion)
 {
     var grafica_presion = new RGraph.Gauge(id, 0, 1000, parseInt(presion));
-    grafica_presion.Set('chart.title', 'Presion');
+    grafica_presion.Set('chart.title', 'Generador');
     grafica_presion.Set('chart.title.size', 12);
     grafica_presion.Set('chart.title.bottom', presion.toString());
     grafica_presion.Set('chart.title.bottom.size', 12);
@@ -151,7 +151,7 @@ function obtenerPresion1(id, presion)
 function obtenerPresionDomo(id, presion)
 {
     var grafica_presion = new RGraph.Gauge(id, 0, 1000, parseInt(presion));
-    grafica_presion.Set('chart.title', 'Presion domo');
+    grafica_presion.Set('chart.title', 'Superior');
     grafica_presion.Set('chart.title.size', 12);
     grafica_presion.Set('chart.title.bottom', presion.toString());
     grafica_presion.Set('chart.title.bottom.size', 12);
@@ -161,7 +161,7 @@ function obtenerPresionDomo(id, presion)
 function obtenerPresionTuberia(id, presion)
 {
     var grafica_presion = new RGraph.Gauge(id, 0, 1000, parseInt(presion));
-    grafica_presion.Set('chart.title', 'Presion tuberia');
+    grafica_presion.Set('chart.title', 'Inferior');
     grafica_presion.Set('chart.title.size', 12);
     grafica_presion.Set('chart.title.bottom', presion.toString());
     grafica_presion.Set('chart.title.bottom.size', 12);
@@ -172,28 +172,28 @@ function obtenerPresionTuberia(id, presion)
 function obtenerTermoAguaFria(id, temp){
     var termo = new RGraph.Thermometer(id, 0, 100, temp);
     termo.Set('chart.colors', ['red']);
-    termo.Set('chart.title.side', "Agua fria");
+    termo.Set('chart.title.side', "Generador");
     return termo;
 }
 
 function obtenerTermoAguaCaliente(id, temp){
     var termo = new RGraph.Thermometer(id, 0, 100, temp);
     termo.Set('chart.colors', ['red']);
-    termo.Set('chart.title.side', "Agua caliente");
+    termo.Set('chart.title.side', "Evap. Superior");
     return termo;
 }
 
 function obtenerTermoTubSalida(id, temp){
     var termo = new RGraph.Thermometer(id, 0, 100, temp);
     termo.Set('chart.colors', ['red']);
-    termo.Set('chart.title.side', "Salida tuberia");
+    termo.Set('chart.title.side', "Evap. Inferior");
     return termo;
 }
 
 function obtenerTermoTuberia(id, temp){
     var termo = new RGraph.Thermometer(id, 0, 100, temp);
     termo.Set('chart.colors', ['red']);
-    termo.Set('chart.title.side', "Tuberia");
+    termo.Set('chart.title.side', "Inferior");
     return termo;
 }
 
@@ -329,7 +329,7 @@ function obtenerGraficaTemps(id){
     grafica.Set('chart.outofbounds', true);
     grafica.Set('chart.linewidth', 1);
     grafica.Set('chart.outofbounds', true);
-    grafica.Set('chart.key', ['Agua fria', 'Agua caliente', 'Salida Caliente', 'Tuberia']);
+    grafica.Set('chart.key', ['Generador', 'Evap. Superior', 'Evap. Inferior', 'Inferior']);
     grafica.Set('chart.key.position', ['gutter']);
     grafica.Set('chart.key.position.gutter.boxed', false);
     grafica.Set('chart.tooltips', arreglos);
@@ -364,7 +364,7 @@ function obtenerGraficaPresionReporte(id){
     grafica.Set('chart.ymax', 400);
     grafica.Set('chart.tickmarks', 'circle');
     grafica.Set('chart.outofbounds', true);
-    grafica.Set('chart.key', ['Presion', 'Presion domo', 'Presion tuberia']);
+    grafica.Set('chart.key', ['Generador', 'Superior', 'Inferior']);
     grafica.Set('chart.key.position', ['gutter']);
     grafica.Set('chart.key.position.gutter.boxed', false);
     grafica.Set('chart.text.angle', 45);
